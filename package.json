@@ -1,0 +1,31 @@
+{
+  "name": "backendteam_b",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/binarxglints_batch15/miniproject/team-b/backendteam_b.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/binarxglints_batch15/miniproject/team-b/backendteam_b/issues"
+  },
+  "homepage": "https://gitlab.com/binarxglints_batch15/miniproject/team-b/backendteam_b#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.3",
+    "pg": "^8.7.1",
+    "sequelize": "^6.9.0",
+    "sequelize-cli": "^6.3.0",
+    "validator": "^13.7.0"
+  }
+}
