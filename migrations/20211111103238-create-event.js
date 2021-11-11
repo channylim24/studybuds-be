@@ -8,34 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      eventPhoto: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      detail: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      dateStart: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      dateEnd: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      organizer: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      link: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
       id_user: {
         allowNull: false,
         type: Sequelize.INTEGER,
@@ -66,12 +38,44 @@ module.exports = {
         onUpdate: 'cascade',
         onDelete: 'cascade'
       },
+      title: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      eventPhoto: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      detail: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      dateStart: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      dateEnd: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      organizer: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      link: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
+        type: Sequelize.DATE
+      },
+      deletedAt: {
+        allowNull: true,
         type: Sequelize.DATE
       }
     });
