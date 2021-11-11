@@ -11,6 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.comment.belongsTo(models.user, {
+        foreignKey: 'id_user'
+      })
+      models.comment.belongsTo(models.event, {
+        foreignKey: 'id_event'
+      })
     }
   };
   comment.init({
@@ -19,6 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     comment: DataTypes.STRING
   }, {
     sequelize,
+    paranoid: true,
+    timestamps: true,
     modelName: 'comment',
   });
   return comment;

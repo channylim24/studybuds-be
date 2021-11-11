@@ -11,6 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.event.hasMany(models.comment, {
+        foreignKey: 'id_event'
+      })
+      models.event.hasMany(models.bookmark, {
+        foreignKey: 'id_event'
+      })
+      models.event.belongsTo(models.user, {
+        foreignKey: 'id_user'
+      })
+      models.event.belongsTo(models.category, {
+        foreignKey: 'id_category'
+      })
+      models.event.belongsTo(models.speaker, {
+        foreignKey: 'id_speaker'
+      })
     }
   };
   event.init({
@@ -26,6 +41,8 @@ module.exports = (sequelize, DataTypes) => {
     id_speaker: DataTypes.INTEGER
   }, {
     sequelize,
+    paranoid: true,
+    timestamps: true,
     modelName: 'event',
   });
   return event;

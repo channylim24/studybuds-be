@@ -9,34 +9,62 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       eventPhoto: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       detail: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       dateStart: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       dateEnd: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       organizer: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       link: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       id_user: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       id_category: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'categories',
+          key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       id_speaker: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'speakers',
+          key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       createdAt: {
         allowNull: false,

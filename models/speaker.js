@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.speaker.hasMany(models.event, {
+        foreignKey: 'id_speaker'
+      })
     }
   };
   speaker.init({
@@ -18,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     speakerPhoto: DataTypes.STRING
   }, {
     sequelize,
+    paranoid: true,
+    timestamps: true,
     modelName: 'speaker',
   });
   return speaker;
