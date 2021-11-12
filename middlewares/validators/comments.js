@@ -13,5 +13,10 @@
 //     if (!validator.isInt(req.body.id_event.toString())) {
 //       errors.push("ID Event must be number (integer");
 //     }
+
+//     if (error.length > 0) {
+//       return res.status(404).json({ errors: errors });
+//     }
+
 //   } catch (error) {}
 // };

@@ -9,16 +9,16 @@ class Comment {
         attributes: {
           exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
         },
-        include: [
-          //   includes is join
-          {
-            model: events,
-            include: [
-              // includes is join
-              { model: users },
-            ],
-          },
-        ],
+        // include: [
+        //   //   includes is join
+        //   {
+        //     model: events,
+        //     include: [
+        //       // includes is join
+        //       { model: users },
+        //     ],
+        //   },
+        // ],
       });
       // if there is no data in comment
       if (data.length === 0) {
@@ -40,16 +40,16 @@ class Comment {
         attributes: {
           exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
         },
-        include: [
-          //   includes is join
-          {
-            model: events,
-            include: [
-              // includes is join
-              { model: users },
-            ],
-          },
-        ],
+        // include: [
+        //   //   includes is join
+        //   {
+        //     model: events,
+        //     include: [
+        //       // includes is join
+        //       { model: users },
+        //     ],
+        //   },
+        // ],
       });
 
       // if there is no data
@@ -78,16 +78,16 @@ class Comment {
         attributes: {
           exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
         },
-        include: [
-          //   includes is join
-          {
-            model: events,
-            include: [
-              // includes is join
-              { model: users },
-            ],
-          },
-        ],
+        // include: [
+        //   //   includes is join
+        //   {
+        //     model: events,
+        //     include: [
+        //       // includes is join
+        //       { model: users },
+        //     ],
+        //   },
+        // ],
       });
 
       res.status(201).json({ data });
@@ -118,16 +118,16 @@ class Comment {
         attributes: {
           exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
         },
-        include: [
-          //   includes is join
-          {
-            model: events,
-            include: [
-              // includes is join
-              { model: users },
-            ],
-          },
-        ],
+        // include: [
+        //   //   includes is join
+        //   {
+        //     model: events,
+        //     include: [
+        //       // includes is join
+        //       { model: users },
+        //     ],
+        //   },
+        // ],
       });
       // if success
       res.status(201).json({ data });
