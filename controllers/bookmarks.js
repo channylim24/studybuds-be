@@ -78,16 +78,16 @@ class Bookmark {
         attributes: {
           exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
         },
-        include: [
-          //   includes is join
-          {
-            model: events,
-            include: [
-              // includes is join
-              { model: users },
-            ],
-          },
-        ],
+        // include: [
+        //   //   includes is join
+        //   {
+        //     model: events,
+        //     include: [
+        //       // includes is join
+        //       { model: users },
+        //     ],
+        //   },
+        // ],
       });
       res.status(201).json({ data });
     } catch (error) {
