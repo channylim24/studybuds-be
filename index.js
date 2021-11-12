@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express"); // import express
-// const fileUpload = require('express-fileupload');
+const fileUpload = require('express-fileupload');
 
 // import routes
 const events = require("./routes/events");
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Enable req.body (form-data)
-// app.use(fileUpload());
+app.use(fileUpload());
 
 app.use(express.static("public"));
 
