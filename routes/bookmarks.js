@@ -18,13 +18,13 @@ const router = express.Router();
 
 // it will find route that has / first, after that it will find is it GET or POST
 router
-  .router("/")
+  .route("/")
   .get(getAllBookmark)
   .post(createOrUpdateBookmarkValidator, createBookmark);
 
 //   it will find route that has /:id first, after that it will find is it GET or PUT or DELETE
 router
-  .router("/:id")
+  .route("/:id")
   .get(getDetailBookmark)
   .put(createOrUpdateBookmarkValidator, updateBookmark)
   .delete(deleteBookmark);

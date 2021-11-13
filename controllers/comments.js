@@ -7,18 +7,8 @@ class Comment {
       let data = await comment.findAll({
         // find all data in table comment
         attributes: {
-          exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
+          exclude: ["id_event", "id_user", "updatedAt"],
         },
-        // include: [
-        //   //   includes is join
-        //   {
-        //     model: events,
-        //     include: [
-        //       // includes is join
-        //       { model: users },
-        //     ],
-        //   },
-        // ],
       });
       // if there is no data in comment
       if (data.length === 0) {
@@ -38,18 +28,8 @@ class Comment {
         // find all data in comment table
         where: { id: req.params.id },
         attributes: {
-          exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
+          exclude: ["id_event", "id_user", "updatedAt"],
         },
-        // include: [
-        //   //   includes is join
-        //   {
-        //     model: events,
-        //     include: [
-        //       // includes is join
-        //       { model: users },
-        //     ],
-        //   },
-        // ],
       });
 
       // if there is no data
@@ -76,18 +56,8 @@ class Comment {
           id: newData.id,
         },
         attributes: {
-          exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
+          exclude: ["id_event", "id_user", "updatedAt"],
         },
-        // include: [
-        //   //   includes is join
-        //   {
-        //     model: events,
-        //     include: [
-        //       // includes is join
-        //       { model: users },
-        //     ],
-        //   },
-        // ],
       });
 
       res.status(201).json({ data });
@@ -116,18 +86,8 @@ class Comment {
           id: req.params.id,
         },
         attributes: {
-          exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
+          exclude: ["id_event", "id_user", "updatedAt"],
         },
-        // include: [
-        //   //   includes is join
-        //   {
-        //     model: events,
-        //     include: [
-        //       // includes is join
-        //       { model: users },
-        //     ],
-        //   },
-        // ],
       });
       // if success
       res.status(201).json({ data });

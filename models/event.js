@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   event.init({
     title: DataTypes.STRING,
-    eventPhoto: DataTypes.STRING,
+    imageEvent: DataTypes.STRING,
     detail: DataTypes.STRING,
     dateStart: DataTypes.STRING,
     dateEnd: DataTypes.STRING,

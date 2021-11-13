@@ -6,6 +6,7 @@ module.exports = {
     for (let i = 0; i <= 10; i++) {
       await queryInterface.bulkInsert('users', [
         {
+          avatar: faker.image.imageUrl(),
           firstName: faker.name.firstName(),
           lastName: faker.name.lastName(),
           email: faker.internet.email(),

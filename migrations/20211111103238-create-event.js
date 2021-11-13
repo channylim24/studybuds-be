@@ -42,7 +42,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      eventPhoto: {
+      imageEvent: {
         allowNull: false,
         type: Sequelize.STRING
       },
