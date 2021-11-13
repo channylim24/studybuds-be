@@ -4,9 +4,14 @@ const { Op } = require('sequelize');
 class Events {
     static async retrieveAllEvent(req, res, next) {
         try {
+            const { page = 1, limit = 8, title } = req.query;
+            const filter = [];
+            if (title) filter.push({ title })
 
-            let getEvent = await event.findAll({
-
+            const filtered = {
+                where: {
+                    [Op.or]: `%${filter}%`,
+                },
                 attributes: { exclude: ['id_user', 'id_customer', 'id_speaker', 'createdAt', 'updatedAt', 'deletedAt'] },
                 include: [
                     {
@@ -22,8 +27,12 @@ class Events {
                         attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] }
                     },
                 ],
-                order: [['createdAt', 'DESC']]   // sort descending
-            });
+                order: [['createdAt', 'DESC']],   // sort descending
+                limit: +limit,
+                offset: (+page - 1) * parseInt(limit)
+            }
+
+            let getEvent = await event.findAll(filtered);
 
             if (getEvent.length === 0) {
                 return res.status(404).json({ status: 404, message: 'Events not found' });

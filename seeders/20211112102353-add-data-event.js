@@ -1,8 +1,9 @@
 'use strict';
 const faker = require('faker')
+const moment = require('moment')
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    for (let i = 0; i <= 30; i++) {
+    for (let i = 1; i <= 10; i++) {
       await queryInterface.bulkInsert('events', [
         {
           id_user: Math.floor(Math.random() * 10) + 1,
@@ -11,12 +12,12 @@ module.exports = {
           title: faker.commerce.department(),
           imageEvent: faker.image.imageUrl(),
           detail: faker.lorem.sentence(),
-          dateStart: new Date(),
-          dateEnd: new Date(),
+          dateStart: moment().format('LLLL'),
+          dateEnd: moment().format('LLLL'),
           organizer: faker.company.companyName(),
           link: faker.image.imageUrl(),
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          createdAt: moment().format('LLLL'),
+          updatedAt: moment().format('LLLL'),
         }
       ], {});
     }
@@ -29,5 +30,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    await queryInterface.bulkDelete('events', null, {});
   }
 };
