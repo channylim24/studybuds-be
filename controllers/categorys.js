@@ -69,6 +69,7 @@ class Categorys {
       // }
     } catch (error) {
       // if error
+      console.log(error);
       res.status(500).json({ errors: ["Internal Server Error"] });
     }
   }
