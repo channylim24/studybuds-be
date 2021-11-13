@@ -1,14 +1,14 @@
 require("dotenv").config();
 const express = require("express"); // import express
-const fileUpload = require('express-fileupload');
+// const fileUpload = require("express-fileupload");
 
 // import routes
 const events = require("./routes/events");
-const users = require("./routes/users");
+// const users = require("./routes/users");
 const categorys = require("./routes/categorys");
-const speakers = require("./routes/speakers");
-const bookmarks = require("./routes/bookmarks");
-const comments = require("./routes/comments");
+// const speakers = require("./routes/speakers");
+// const bookmarks = require("./routes/bookmarks");
+// const comments = require("./routes/comments");
 
 const errorHandler = require("./middlewares/errorHandler");
 
@@ -19,17 +19,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Enable req.body (form-data)
-app.use(fileUpload());
+// app.use(fileUpload());
 
 app.use(express.static("public"));
 
 // make routes
 app.use("/event", events);
 // app.use("/user", users);
-// app.use("/category", categorys);
+app.use("/category", categorys);
 // app.use("/speaker", speakers);
-app.use("/bookmark", bookmarks);
-app.use("/comment", comments);
+// app.use("/bookmark", bookmarks);
+// app.use("/comment", comments);
 
 app.use(errorHandler);
 
