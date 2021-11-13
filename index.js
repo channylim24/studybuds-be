@@ -25,9 +25,9 @@ app.use(express.static("public"));
 
 // make routes
 app.use("/event", events);
-app.use("/user", users);
-app.use("/category", categorys);
-app.use("/speaker", speakers);
+// app.use("/user", users);
+// app.use("/category", categorys);
+// app.use("/speaker", speakers);
 app.use("/bookmark", bookmarks);
 app.use("/comment", comments);
 

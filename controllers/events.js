@@ -4,17 +4,9 @@ const { Op } = require('sequelize');
 class Events {
     static async retrieveAllEvent(req, res, next) {
         try {
-            const { title, category, date, page = 1, limit = 5 } = req.query;
-            const filter = [];
-            if (category) filter.push({ id_category: category })
-            if (date) filter.push({ dateStart: date })
 
-            // Filtering by title, category, date
             let getEvent = await event.findAll({
-                where: {
-                    title: { [Op.like]: `%${title}%` },     // find before and after title
-                    [Op.or]: filter,
-                },
+
                 attributes: { exclude: ['id_user', 'id_customer', 'id_speaker', 'createdAt', 'updatedAt', 'deletedAt'] },
                 include: [
                     {
@@ -33,29 +25,15 @@ class Events {
                 order: [['createdAt', 'DESC']]   // sort descending
             });
 
-            // pagination
-            let pagination = +page;
-            let limitation = +limit;
-
-            if ((getEvent.length > 10) && (!limit && !page)) {
-                pagination = 1;
-                limitation = 8;
-            }
-
-            const startIndex = (pagination - 1) * limitation;
-            const endIndex = pagination * limitation
-
-            const result = getEvent.slice(startIndex, endIndex)
-
             if (getEvent.length === 0) {
                 return res.status(404).json({ status: 404, message: 'Events not found' });
             }
 
-            res.status(200).json({ status: 200, data: result })
+            res.status(200).json({ status: 200, message: 'Success', data: getEvent })
 
         } catch (error) {
             console.log(error);
-            res.status(500).json({ status: 500, message: 'Internal Server Error' || error.message });
+            res.status(500).json({ status: 500, message: 'Internal Server Error Retrieve All Event' || error.message });
         }
     }
 
@@ -84,11 +62,11 @@ class Events {
                 return res.status(404).json({ status: 404, message: 'Event not found' });
             }
 
-            res.status(200).json({ status: 200, data: getDetailEvent });
+            res.status(200).json({ status: 200, message: 'Success', data: getDetailEvent });
 
         } catch (error) {
             console.log(error);
-            res.status(500).json({ status: 500, message: 'Internal Server Error' || error.message });
+            res.status(500).json({ status: 500, message: 'Internal Server Error Retrieve Detail Event' || error.message });
         }
     }
 
@@ -104,7 +82,7 @@ class Events {
                 include: [
                     {
                         model: user,
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt', 'password'] },
                     },
                     {
                         model: category,
@@ -121,7 +99,7 @@ class Events {
 
         } catch (error) {
             console.log(error);
-            res.status(500).json({ status: 500, message: 'Internal Server Error' || error.message });
+            res.status(500).json({ status: 500, message: 'Internal Server Error Create Event' || error.message });
         }
     }
 
@@ -162,7 +140,7 @@ class Events {
 
         } catch (error) {
             console.log(error);
-            res.status(500).json({ status: 500, message: 'Internal Server Error' || error.message });
+            res.status(500).json({ status: 500, message: 'Internal Server Error Update Event' || error.message });
         }
     }
 
@@ -178,7 +156,7 @@ class Events {
 
         } catch (error) {
             console.log(error);
-            res.status(500).json({ status: 500, message: 'Internal Server Error' || error.message });
+            res.status(500).json({ status: 500, message: 'Internal Server Error Delete Event' || error.message });
         }
     }
 

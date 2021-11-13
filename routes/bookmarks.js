@@ -2,7 +2,7 @@ const express = require("express");
 
 // import validators
 const {
-  createOrUpdateBookmarkValidator,
+  createOrUpdateCommentBookmark,
 } = require("../middlewares/validators/bookmarks");
 
 // import controllers
@@ -20,13 +20,13 @@ const router = express.Router();
 router
   .route("/")
   .get(getAllBookmark)
-  .post(createOrUpdateBookmarkValidator, createBookmark);
+  .post(createOrUpdateCommentBookmark, createBookmark);
 
 //   it will find route that has /:id first, after that it will find is it GET or PUT or DELETE
 router
   .route("/:id")
   .get(getDetailBookmark)
-  .put(createOrUpdateBookmarkValidator, updateBookmark)
+  .put(createOrUpdateCommentBookmark, updateBookmark)
   .delete(deleteBookmark);
 
 module.exports = router;
