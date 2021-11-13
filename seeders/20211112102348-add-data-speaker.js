@@ -6,7 +6,7 @@ module.exports = {
       await queryInterface.bulkInsert('speakers', [
         {
           name: faker.name.findName(),
-          speakerPhoto: faker.image.imageUrl(),
+          imageSpeaker: faker.image.imageUrl(),
           createdAt: new Date(),
           updatedAt: new Date(),
         }

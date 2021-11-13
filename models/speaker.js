@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   speaker.init({
     name: DataTypes.STRING,
-    speakerPhoto: DataTypes.STRING
+    imageSpeaker: DataTypes.STRING
   }, {
     sequelize,
     paranoid: true,

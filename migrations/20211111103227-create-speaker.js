@@ -12,8 +12,8 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      speakerPhoto: {
-        allowNull: false,
+      imageSpeaker: {
+        allowNull: true,
         type: Sequelize.STRING
       },
       createdAt: {
