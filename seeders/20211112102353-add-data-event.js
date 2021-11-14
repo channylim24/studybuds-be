@@ -1,6 +1,5 @@
 'use strict';
 const faker = require('faker')
-const moment = require('moment')
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     for (let i = 1; i <= 10; i++) {
@@ -12,12 +11,12 @@ module.exports = {
           title: faker.commerce.department(),
           imageEvent: faker.image.imageUrl(),
           detail: faker.lorem.sentence(),
-          dateStart: moment().format('LLLL'),
-          dateEnd: moment().format('LLLL'),
+          dateStart: new Date().toLocaleString(),
+          dateEnd: new Date().toLocaleString(),
           organizer: faker.company.companyName(),
           link: faker.image.imageUrl(),
-          createdAt: moment().format('LLLL'),
-          updatedAt: moment().format('LLLL'),
+          createdAt: new Date(),
+          updatedAt: new Date()
         }
       ], {});
     }

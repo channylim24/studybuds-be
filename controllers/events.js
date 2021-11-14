@@ -4,41 +4,59 @@ const { Op } = require('sequelize');
 class Events {
     static async retrieveAllEvent(req, res, next) {
         try {
-            const { page = 1, limit = 8, title } = req.query;
+
+            const { title, today, cat, tomorrow, this_week, this_month, this_year, all_upcoming, page = 1, limit = 5 } = req.query;
             const filter = [];
             if (title) filter.push({ title })
+            if (today) filter.push({ dateStart: today })
+            if (cat) filter.push({ id_category: +cat })
+            if (tomorrow) filter.push({ dateStart: tomorrow })
+            if (this_week) filter.push({ dateStart: this_week })
+            if (this_month) filter.push({ dateStart: this_month })
+            if (this_year) filter.push({ dateStart: this_year })
+            if (all_upcoming) filter.push({ dateStart: all_upcoming })
 
-            const filtered = {
+            let getEvent = await event.findAll({
                 where: {
-                    [Op.or]: `%${filter}%`,
+                    [Op.or]: filter
                 },
                 attributes: { exclude: ['id_user', 'id_customer', 'id_speaker', 'createdAt', 'updatedAt', 'deletedAt'] },
                 include: [
                     {
                         model: user,
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] }
+                        attributes: { exclude: ['id', 'createdAt', 'updatedAt', 'deletedAt'] }
                     },
                     {
                         model: category,
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] }
+                        attributes: { exclude: ['id', 'createdAt', 'updatedAt', 'deletedAt'] }
                     },
                     {
                         model: speaker,
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] }
+                        attributes: { exclude: ['id', 'createdAt', 'updatedAt', 'deletedAt'] }
                     },
                 ],
-                order: [['createdAt', 'DESC']],   // sort descending
-                limit: +limit,
-                offset: (+page - 1) * parseInt(limit)
+                order: [['createdAt', 'DESC']]   // sort descending
+            });
+
+            // pagination
+            let pagination = +page;
+            let limitation = +limit;
+
+            if ((getEvent.length > 10) && (!limit && !page)) {
+                pagination = 1;
+                limitation = 8;
             }
 
-            let getEvent = await event.findAll(filtered);
+            const startIndex = (pagination - 1) * limitation;
+            const endIndex = pagination * limitation
+
+            const result = getEvent.slice(startIndex, endIndex)
 
             if (getEvent.length === 0) {
                 return res.status(404).json({ status: 404, message: 'Events not found' });
             }
 
-            res.status(200).json({ status: 200, message: 'Success', data: getEvent })
+            res.status(200).json({ status: 200, data: result })
 
         } catch (error) {
             console.log(error);
