@@ -1,26 +1,27 @@
 const { event, user, category, speaker, bookmark, comment } = require('../models');
 const { Op } = require('sequelize');
+const moment = require('moment');
 
 class Events {
     static async retrieveAllEvent(req, res, next) {
         try {
             // let currentDate = new Date(new Date().getTime());
-            let dateToday = new Date(new Date().getTime());
-            let dateTomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-            let dateThisWeek = '';
-            let dateThisMonth = '';
-            let dateThisYear = '';
-            let dateUpcoming = '';
+            let getDate = new Date().getDate();
+            let getMonth = new Date().getMonth();
+            let getYear = new Date().getFullYear();
+            let getHour = new Date().getHours();
+            let getMinute = new Date().getMinutes();
+            let fullDate = `${getDate}-${getMonth}-${getYear} ${getHour}:${getMinute}`;
 
             const {
                 title = "",
-                today,
                 cat,
-                tomorrow,
-                this_week,
-                this_month,
-                this_year,
-                all_upcoming,
+                today = fullDate,
+                tomorrow = "",
+                this_week = "",
+                this_month = "",
+                this_year = "",
+                all_upcoming = "",
                 page = 1,
                 limit = 8,
             } = req.query;
@@ -168,7 +169,7 @@ class Events {
                 include: [
                     {
                         model: user,
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt', 'password'] },
                     },
                     {
                         model: category,
@@ -203,6 +204,96 @@ class Events {
             console.log(error);
             res.status(500).json({ status: 500, message: 'Internal Server Error Delete Event' || error.message });
         }
+    }
+
+    static async retrieveEventToday(req, res, next) {
+        try {
+            const { page = 1, limit = 8 } = req.query;
+
+            const startToday = moment().startOf('day').format('MM-DD-YYYY hh:mm');
+            const endToday = moment().startOf('day').format('MM-DD-YYYY hh:mm');
+
+            let getEvent = await event.findAll({
+                where: {
+                    dateStart: {
+                        [Op.between]: [startToday, endToday]
+                    }
+                },
+                attributes: { exclude: ['id_user', 'id_customer', 'id_speaker', 'createdAt', 'updatedAt', 'deletedAt'] },
+                include: [
+                    {
+                        model: user,
+                        attributes: { exclude: ['id', 'createdAt', 'updatedAt', 'deletedAt', 'password'] }
+                    },
+                    {
+                        model: category,
+                        attributes: { exclude: ['id', 'createdAt', 'updatedAt', 'deletedAt'] }
+                    },
+                    {
+                        model: speaker,
+                        attributes: { exclude: ['id', 'createdAt', 'updatedAt', 'deletedAt'] }
+                    },
+                ],
+                order: [['createdAt', 'DESC']], // sort descending
+                limit: parseInt(limit),
+                offset: (parseInt(page) - 1) * parseInt(limit)
+            })
+
+            if (getEvent.length === 0) {
+                return res.status(404).json({ status: 404, message: 'No events today/events not found' })
+            }
+
+            res.status(200).json({ status: 200, success: 'true', data: getEvent })
+
+        } catch (error) {
+            res.status(500).json({ status: 500, message: 'Internal Server Error Retrieve Event Today' || error.message });
+        }
+    }
+
+    static async retrieveEventTomorrow(req, res, next) {
+        try {
+            const { page = 1, limit = 8 } = req.query;
+
+            const DD = new Date().getDate()
+            const startTomorrow = moment().startOf('day').format(`MM-${DD + 1}-YYYY hh:mm`);
+            const endTomorrow = moment().endOf('day').format(`MM-${DD + 1}-YYYY hh:mm`);
+
+            let getEvent = await event.findAll({
+                where: {
+                    dateStart: {
+                        [Op.between]: [startTomorrow, endTomorrow]
+                    }
+                },
+                attributes: { exclude: ['id_user', 'id_customer', 'id_speaker', 'createdAt', 'updatedAt', 'deletedAt'] },
+                include: [
+                    {
+                        model: user,
+                        attributes: { exclude: ['id', 'createdAt', 'updatedAt', 'deletedAt', 'password'] }
+                    },
+                    {
+                        model: category,
+                        attributes: { exclude: ['id', 'createdAt', 'updatedAt', 'deletedAt'] }
+                    },
+                    {
+                        model: speaker,
+                        attributes: { exclude: ['id', 'createdAt', 'updatedAt', 'deletedAt'] }
+                    },
+                ],
+                order: [['createdAt', 'DESC']], // sort descending
+                limit: parseInt(limit),
+                offset: (parseInt(page) - 1) * parseInt(limit)
+            })
+
+            if (getEvent.length === 0) {
+                return res.status(404).json({ status: 404, message: 'No event tomorrow' })
+            }
+
+            res.status(200).json({ status: 200, succes: 'true', data: getEvent });
+
+        } catch (error) {
+            res.status(500).json({ status: 500, message: 'Internal Server Error Retrieve Event Tomorrow' || error.message });
+        }
+
     }
 
 }
