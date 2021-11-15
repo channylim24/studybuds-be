@@ -10,6 +10,7 @@ const categorys = require("./routes/categorys");
 const speakers = require("./routes/speakers");
 const bookmarks = require("./routes/bookmarks");
 const comments = require("./routes/comments");
+const login = require('./routes/login');
 
 const errorHandler = require("./middlewares/errorHandler");
 
@@ -35,9 +36,10 @@ app.use(express.static("public"));
 
 // make routes
 app.use("/event", events);
-// app.use("/user", users);
+app.use("/user", users);
+app.use('/login', login);
 app.use("/category", categorys);
-// app.use("/speaker", speakers);
+app.use("/speaker", speakers);
 app.use("/bookmark", bookmarks);
 app.use("/comment", comments);
 

@@ -14,7 +14,7 @@ exports.createSpeakerValidator = async (req, res, next) => {
     if (req.files != null) {
       const file = req.files.imageSpeaker;
 
-    
+
       if (!file.mimetype.startsWith('image')) {
         errors.push('File must be an Image');
       }
@@ -33,7 +33,7 @@ exports.createSpeakerValidator = async (req, res, next) => {
 
       const move = promisify(file.mv);
 
-      await move(`./public/speaker/${file.name}`);
+      await move(`./public/images/speaker/${file.name}`);
 
       req.body.imageSpeaker = file.name;
     } else {

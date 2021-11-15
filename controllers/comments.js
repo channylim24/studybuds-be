@@ -1,21 +1,23 @@
-const { comments, events, users } = require("../models");
+const { comment, event, user } = require("../models");
 
 class Comment {
   // Get all comment
   async getAllComment(req, res, next) {
     try {
-      let data = await comments.findAll({
+      let data = await comment.findAll({
         // find all data in table comment
         attributes: {
           exclude: ["id_event", "id_user", "updatedAt", "deletedAt"],
         },
         include: [
           {
-            model: events,
+            model: event,
+            attributes: ['dateStart']
           },
-          // {
-          //   model: users,
-          // },
+          {
+            model: user,
+            attributes: ['avatar', 'firstName']
+          },
         ],
       });
       // if there is no data in comment
@@ -31,7 +33,7 @@ class Comment {
   // get detail comment
   async getDetailComment(req, res, next) {
     try {
-      let data = await comments.findOne({
+      let data = await comment.findOne({
         // find all data in comment table
         where: { id: req.params.id },
         attributes: {
@@ -39,11 +41,12 @@ class Comment {
         },
         include: [
           {
-            model: events,
+            model: event,
           },
-          // {
-          //   model: users,
-          // },
+          {
+            model: user,
+            attributes: { exclude: ['password'] }
+          },
         ],
       });
 
@@ -62,10 +65,10 @@ class Comment {
   async createComment(req, res, next) {
     try {
       // create comment
-      const newData = await comments.create(req.body);
+      const newData = await comment.create(req.body);
 
       // find event with join
-      const data = await comments.findOne({
+      const data = await comment.findOne({
         where: {
           id: newData.id,
         },
@@ -74,11 +77,12 @@ class Comment {
         },
         include: [
           {
-            model: events,
+            model: event,
           },
-          // {
-          //   model: users,
-          // },
+          {
+            model: user,
+            attributes: { exclude: ['password'] }
+          },
         ],
       });
 
@@ -92,7 +96,7 @@ class Comment {
   async updateComment(req, res, next) {
     try {
       // transaction table update data
-      const updatedData = await comments.update(req.body, {
+      const updatedData = await comment.update(req.body, {
         where: {
           id: req.params.id,
         },
@@ -103,7 +107,7 @@ class Comment {
         return res.status(404).json({ errors: ["Comment not found"] });
       }
       // find the updated comment
-      const data = await comments.findOne({
+      const data = await comment.findOne({
         where: {
           id: req.params.id,
         },
@@ -112,11 +116,12 @@ class Comment {
         },
         include: [
           {
-            model: events,
+            model: event,
           },
-          // {
-          //   model: users,
-          // },
+          {
+            model: user,
+            attributes: { exclude: ['password'] }
+          },
         ],
       });
       // if success
@@ -130,7 +135,7 @@ class Comment {
   async deleteComment(req, res, next) {
     try {
       // delete data
-      let data = await comments.destroy({ where: { id: req.params.id } });
+      let data = await comment.destroy({ where: { id: req.params.id } });
       // if delete data is null
       if (!data) {
         return res.status(404).json({ errors: ["Comment not found"] });

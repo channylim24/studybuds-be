@@ -13,7 +13,7 @@ exports.createUserValidator = async (req, res, next) => {
     if (req.files != null) {
       const file = req.files.avatar;
 
-    
+
       if (!file.mimetype.startsWith('image')) {
         errors.push('File must be an Image');
       }
@@ -32,7 +32,7 @@ exports.createUserValidator = async (req, res, next) => {
 
       const move = promisify(file.mv);
 
-      await move(`./public/image/${file.name}`);
+      await move(`./public/images/user${file.name}`);
 
       req.body.avatar = file.name;
     } else {
@@ -41,6 +41,7 @@ exports.createUserValidator = async (req, res, next) => {
 
     next();
   } catch (error) {
-    res.status(500).json({ errors: ['Internal Server Error'] });
+    console.log(error);
+    res.status(500).json({ errors: ['Internal Server Error test'] });
   }
 };
