@@ -1,10 +1,10 @@
-const { bookmarks, events, users } = require("../models");
+const { bookmark, event, user } = require("../models");
 
 class Bookmark {
   // get all bookmark
   async getAllBookmark(req, res, next) {
     try {
-      let data = await bookmarks.findAll({
+      let data = await bookmark.findAll({
         // find all data in table bookmark
         attributes: {
           exclude: [
@@ -17,16 +17,17 @@ class Bookmark {
         },
         include: [
           {
-            model: events,
+            model: event,
           },
-          // {
-          //   model: users,
-          // },
+          {
+            model: user,
+            attributes: { exclude: ['password'] }
+          },
         ],
       });
 
       // If there is nothing here
-      if ((data, length === 0)) {
+      if ((data.length === 0)) {
         return res.status(404).json({ errors: ["Bookmark not found"] });
       }
       // If success
@@ -37,7 +38,7 @@ class Bookmark {
   }
   async getDetailBookmark(req, res, next) {
     try {
-      let data = await bookmarks.findOne({
+      let data = await bookmark.findOne({
         // find all data of bookmark table
         where: { id: req.params.id },
         attributes: {
@@ -51,11 +52,12 @@ class Bookmark {
         },
         include: [
           {
-            model: events,
+            model: event,
           },
-          // {
-          //   model: users,
-          // },
+          {
+            model: user,
+            attributes: { exclude: ['password'] }
+          },
         ],
       });
 
@@ -74,10 +76,10 @@ class Bookmark {
   async createBookmark(req, res, next) {
     try {
       // create bookmark
-      const newData = await bookmarks.create(req.body);
+      const newData = await bookmark.create(req.body);
 
       // find bookmark with join
-      const data = await bookmarks.findOne({
+      const data = await bookmark.findOne({
         where: {
           id: newData.id,
         },
@@ -92,11 +94,12 @@ class Bookmark {
         },
         include: [
           {
-            model: events,
+            model: event,
           },
-          // {
-          //   model: users,
-          // },
+          {
+            model: user,
+            attributes: { exclude: ['password'] }
+          },
         ],
       });
       res.status(201).json({ data });
@@ -109,7 +112,7 @@ class Bookmark {
   async updateBookmark(req, res, next) {
     try {
       // bookmark table update
-      const updatedData = await bookmarks.update(req.body, {
+      const updatedData = await bookmark.update(req.body, {
         where: {
           id: req.params.id,
         },
@@ -121,7 +124,7 @@ class Bookmark {
       }
 
       // find the updated bookmark
-      const data = await transaction.findOne({
+      const data = await bookmark.findOne({
         where: {
           id: req.params.id,
         },
@@ -136,11 +139,12 @@ class Bookmark {
         },
         include: [
           {
-            model: events,
+            model: event,
           },
-          // {
-          //   model: users,
-          // },
+          {
+            model: user,
+            attributes: { exclude: ['password'] }
+          },
         ],
       });
 
@@ -155,7 +159,7 @@ class Bookmark {
   async deleteBookmark(req, res, next) {
     try {
       // delete data
-      let data = await bookmarks.destroy({ where: { id: req.params.id } });
+      let data = await bookmark.destroy({ where: { id: req.params.id } });
 
       // If data deleted is null
       if (!data) {
