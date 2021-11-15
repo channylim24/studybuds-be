@@ -1,7 +1,7 @@
 const path = require('path');
 const crypto = require('crypto');
 const validator = require('validator');
-const { promisify } = require('utils');
+const { promisify } = require('util');
 
 exports.eventValidator = async (req, res, next) => {
     try {

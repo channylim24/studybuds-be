@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express"); // import express
 const fileUpload = require("express-fileupload");
+const cors = require("cors");
 
 // import routes
 const events = require("./routes/events");
@@ -13,6 +14,8 @@ const comments = require("./routes/comments");
 const errorHandler = require("./middlewares/errorHandler");
 
 const app = express();
+
+app.use(cors());
 
 // enable req.body (json and urlencoded)
 app.use(express.json());
