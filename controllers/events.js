@@ -81,7 +81,7 @@ class Events {
             getEvents = getEvents[0]
 
             if (getEvents.length === 0) {
-                return res.status(404).json({ status: 404, success: 'false', message: 'Event not found - retrieve all event' });
+                return res.status(404).json({ status: 404, success: false, message: 'Event not found - retrieve all event' });
             }
 
             let page = +req.query.page;
@@ -96,11 +96,11 @@ class Events {
 
             const result = page && limit ? getEvents.slice(startIndex, endIndex) : getEvents
 
-            res.status(200).json({ status: 200, data: result })
+            res.status(200).json({ status: 200, success: true, message: 'Success Retrieve All Event', data: result })
 
         } catch (error) {
             console.log(error);
-            res.status(500).json({ status: 500, message: 'Internal Server Error Retrieve All Event', error });
+            res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Retrieve All Event', error });
         }
     }
 
@@ -129,14 +129,14 @@ class Events {
             })
 
             if (!getDetailEvent) {
-                return res.status(404).json({ status: 404, success: 'false', message: 'Event not found - retrieve detail event' });
+                return res.status(404).json({ status: 404, success: false, message: 'Event not found - retrieve detail event' });
             }
 
-            res.status(200).json({ status: 200, message: 'Success', data: getDetailEvent });
+            res.status(200).json({ status: 200, success: true, message: 'Success Retrieve Detail Event', data: getDetailEvent });
 
         } catch (error) {
             console.log(error);
-            res.status(500).json({ status: 500, message: 'Internal Server Error Retrieve Detail Event' || error.message });
+            res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Retrieve Detail Event' || error.message });
         }
     }
 
@@ -165,11 +165,11 @@ class Events {
                 ],
             });
 
-            res.status(201).json({ status: 201, message: 'Success create event', data: getEvent })
+            res.status(201).json({ status: 201, success: true, message: 'Success create event', data: getEvent })
 
         } catch (error) {
             console.log(error);
-            res.status(500).json({ status: 500, message: 'Internal Server Error Create Event' || error.message });
+            res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Create Event' || error.message });
         }
     }
 
@@ -182,7 +182,7 @@ class Events {
             });
 
             if (updatedEvent[0] === 0) {
-                return res.status(404).json({ status: 500, message: 'Event not found - updated event' });
+                return res.status(404).json({ status: 500, success: false, message: 'Event not found - updated event' });
             }
 
             const getEvent = await event.findOne({
@@ -206,11 +206,11 @@ class Events {
                 ]
             });
 
-            res.status(201).json({ status: 201, message: 'Success update event', data: getEvent });
+            res.status(201).json({ status: 201, success: true, message: 'Success update event', data: getEvent });
 
         } catch (error) {
             console.log(error);
-            res.status(500).json({ status: 500, message: 'Internal Server Error Update Event' || error.message });
+            res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Update Event' || error.message });
         }
     }
 
@@ -219,14 +219,14 @@ class Events {
             let removeEvent = await event.destroy({ where: { id: req.params.id } });
 
             if (!removeEvent) {
-                return res.status(404).json({ status: 404, message: 'Event not found - delete event' });
+                return res.status(404).json({ status: 404, success: false, message: 'Event not found - delete event' });
             }
 
-            res.status(200).json({ status: 200, message: 'Delete Successful' });
+            res.status(200).json({ status: 200, success: true, message: 'Delete Successful' });
 
         } catch (error) {
             console.log(error);
-            res.status(500).json({ status: 500, message: 'Internal Server Error Delete Event' || error.message });
+            res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Delete Event' || error.message });
         }
     }
 
