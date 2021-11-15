@@ -15,11 +15,18 @@ const errorHandler = require("./middlewares/errorHandler");
 
 const app = express();
 
-app.use(cors());
-
 // enable req.body (json and urlencoded)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// ---- CORS setting
+const corsOptions = {
+    origin: '*',
+    allowedHeaders: ['Content-Type', 'Authorization', 'Content-Length', 'X-Requested-With', 'Accept'],
+    methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+app.use(cors(corsOptions));
 
 // Enable req.body (form-data)
 app.use(fileUpload());

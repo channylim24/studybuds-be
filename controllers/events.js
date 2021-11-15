@@ -6,12 +6,12 @@ class Events {
     static async retrieveAllEvent(req, res, next) {
         try {
             const {
-                isThisToday,
-                isThisTomorrow,
-                isThisWeek,
-                isThisMonth,
-                isThisYear,
-                comingSoon,
+                isthistoday,
+                isthistomorrow,
+                isthisweek,
+                isthismonth,
+                isthisyear,
+                comingsoon,
                 title = '',
             } = req.query;
 
@@ -22,23 +22,23 @@ class Events {
             const order = req.query.order ? req.query.order : 'DESC';
 
             // moment js for filtering by date
-            if (Number(isThisToday)) {
+            if (Number(isthistoday)) {
                 startDate = moment().startOf('day').format('YYYY-MM-DD');
                 endDate = moment().endOf('day').format('YYYY-MM-DD');
-            } else if (Number(isThisTomorrow)) {
+            } else if (Number(isthistomorrow)) {
                 let DD = new Date().getDate();
                 startDate = moment().startOf('day').format(`YYYY-MM-${DD + 1}`);
                 endDate = moment().endOf('day').format(`YYYY-MM-${DD + 1}`);
-            } else if (Number(isThisWeek)) {
+            } else if (Number(isthisweek)) {
                 startDate = moment().startOf('week').format('YYYY-MM-DD');
                 endDate = moment().endOf('week').format('YYYY-MM-DD');
-            } else if (Number(isThisMonth)) {
+            } else if (Number(isthismonth)) {
                 startDate = moment().startOf('month').format('YYYY-MM-DD');
                 endDate = moment().endOf('month').format('YYYY-MM-DD');
-            } else if (Number(isThisYear)) {
+            } else if (Number(isthisyear)) {
                 startDate = moment().startOf('year').format('YYYY-MM-DD');
                 endDate = moment().endOf('year').format('YYYY-MM-DD');
-            } else if (Number(comingSoon)) {
+            } else if (Number(comingsoon)) {
                 let DD = new Date().getDate();
                 startDate = moment().startOf('week').format(`YYYY-MM-${DD + 7}`);
                 endDate = moment().endDate('week').format(`YYYY-MM-${DD + 7}`);
@@ -55,7 +55,7 @@ class Events {
 
             // filtering search by title
             if (title) {
-                query += ` where "title" LIKE '%${title}%' `
+                query += ` where "title" ILIKE '%${title}%' `
             }
 
             // calculate date range
