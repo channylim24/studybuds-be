@@ -9,6 +9,14 @@ class Comment {
         attributes: {
           exclude: ["id_event", "id_user", "updatedAt"],
         },
+        include: [
+          {
+            model: events,
+          },
+          // {
+          //   model: users,
+          // },
+        ],
       });
       // if there is no data in comment
       if (data.length === 0) {
@@ -17,8 +25,7 @@ class Comment {
       // if success
       res.status(200).json({ data });
     } catch (error) {
-      // if error
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      next(error);
     }
   }
   // get detail comment
@@ -30,6 +37,14 @@ class Comment {
         attributes: {
           exclude: ["id_event", "id_user", "updatedAt"],
         },
+        include: [
+          {
+            model: events,
+          },
+          // {
+          //   model: users,
+          // },
+        ],
       });
 
       // if there is no data
@@ -40,8 +55,7 @@ class Comment {
       // if success
       res.status(200).json({ data });
     } catch (error) {
-      // if error
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      next(error);
     }
   }
   // Create comment
@@ -58,11 +72,19 @@ class Comment {
         attributes: {
           exclude: ["id_event", "id_user", "updatedAt"],
         },
+        include: [
+          {
+            model: events,
+          },
+          // {
+          //   model: users,
+          // },
+        ],
       });
 
       res.status(201).json({ data });
     } catch (error) {
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      next(error);
     }
   }
 
@@ -88,12 +110,19 @@ class Comment {
         attributes: {
           exclude: ["id_event", "id_user", "updatedAt"],
         },
+        include: [
+          {
+            model: events,
+          },
+          // {
+          //   model: users,
+          // },
+        ],
       });
       // if success
       res.status(201).json({ data });
     } catch (error) {
-      // if error
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      next(error);
     }
   }
 
@@ -110,8 +139,7 @@ class Comment {
       // if success
       res.status(200).json({ message: "Success delete comment" });
     } catch (error) {
-      // if error
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      next(error);
     }
   }
 }

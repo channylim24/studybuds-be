@@ -9,6 +9,14 @@ class Bookmark {
         attributes: {
           exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
         },
+        include: [
+          {
+            model: events,
+          },
+          // {
+          //   model: users,
+          // },
+        ],
       });
 
       // If there is nothing here
@@ -18,8 +26,7 @@ class Bookmark {
       // If success
       res.status(200).json({ data });
     } catch (error) {
-      // if error
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      next(error);
     }
   }
   async getDetailBookmark(req, res, next) {
@@ -30,6 +37,14 @@ class Bookmark {
         attributes: {
           exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
         },
+        include: [
+          {
+            model: events,
+          },
+          // {
+          //   model: users,
+          // },
+        ],
       });
 
       // if theres nothing here
@@ -40,8 +55,7 @@ class Bookmark {
       // if success
       res.status(200).json({ data });
     } catch (error) {
-      // if error
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      next(error);
     }
   }
 
@@ -58,10 +72,18 @@ class Bookmark {
         attributes: {
           exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
         },
+        include: [
+          {
+            model: events,
+          },
+          // {
+          //   model: users,
+          // },
+        ],
       });
       res.status(201).json({ data });
     } catch (error) {
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      next(error);
     }
   }
 
@@ -69,7 +91,7 @@ class Bookmark {
   async updateBookmark(req, res, next) {
     try {
       // bookmark table update
-      const updateData = await bookmark.update(req.body, {
+      const updatedData = await bookmark.update(req.body, {
         where: {
           id: req.params.id,
         },
@@ -88,13 +110,20 @@ class Bookmark {
         attributes: {
           exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
         },
+        include: [
+          {
+            model: events,
+          },
+          // {
+          //   model: users,
+          // },
+        ],
       });
 
       // if success
       res.status(201).json({ data });
     } catch (error) {
-      // if error
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      next(error);
     }
   }
 
@@ -112,8 +141,7 @@ class Bookmark {
       // if success
       res.status(200).json({ message: "Success delete bookmark" });
     } catch (error) {
-      // if error
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      next(error);
     }
   }
 }
