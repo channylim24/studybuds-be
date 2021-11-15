@@ -43,6 +43,7 @@ app.use("/comment", comments);
 
 app.use(errorHandler);
 
+
 // run the server
 const port = process.env.port || 3000; // define port
 app.listen(port, () => console.log(`Server running on port ${port}...`));
