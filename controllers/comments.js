@@ -25,8 +25,7 @@ class Comment {
       // if success
       res.status(200).json({ data });
     } catch (error) {
-      // if error
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      next(error);
     }
   }
   // get detail comment
@@ -56,8 +55,7 @@ class Comment {
       // if success
       res.status(200).json({ data });
     } catch (error) {
-      // if error
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      next(error);
     }
   }
   // Create comment
@@ -86,7 +84,7 @@ class Comment {
 
       res.status(201).json({ data });
     } catch (error) {
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      next(error);
     }
   }
 
@@ -124,8 +122,7 @@ class Comment {
       // if success
       res.status(201).json({ data });
     } catch (error) {
-      // if error
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      next(error);
     }
   }
 
@@ -142,8 +139,7 @@ class Comment {
       // if success
       res.status(200).json({ message: "Success delete comment" });
     } catch (error) {
-      // if error
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      next(error);
     }
   }
 }
