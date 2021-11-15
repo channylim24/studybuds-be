@@ -1,13 +1,19 @@
-const { bookmark, events, users } = require("../models");
+const { bookmarks, events, users } = require("../models");
 
 class Bookmark {
   // get all bookmark
   async getAllBookmark(req, res, next) {
     try {
-      let data = await bookmark.findAll({
+      let data = await bookmarks.findAll({
         // find all data in table bookmark
         attributes: {
-          exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
+          exclude: [
+            "id_event",
+            "id_user",
+            "createdAt",
+            "updatedAt",
+            "deletedAt",
+          ],
         },
         include: [
           {
@@ -31,11 +37,17 @@ class Bookmark {
   }
   async getDetailBookmark(req, res, next) {
     try {
-      let data = await bookmark.findOne({
+      let data = await bookmarks.findOne({
         // find all data of bookmark table
         where: { id: req.params.id },
         attributes: {
-          exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
+          exclude: [
+            "id_event",
+            "id_user",
+            "createdAt",
+            "updatedAt",
+            "deletedAt",
+          ],
         },
         include: [
           {
@@ -62,15 +74,21 @@ class Bookmark {
   async createBookmark(req, res, next) {
     try {
       // create bookmark
-      const newData = await bookmark.create(req.body);
+      const newData = await bookmarks.create(req.body);
 
       // find bookmark with join
-      const data = await bookmark.findOne({
+      const data = await bookmarks.findOne({
         where: {
           id: newData.id,
         },
         attributes: {
-          exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
+          exclude: [
+            "id_event",
+            "id_user",
+            "createdAt",
+            "updatedAt",
+            "deletedAt",
+          ],
         },
         include: [
           {
@@ -91,7 +109,7 @@ class Bookmark {
   async updateBookmark(req, res, next) {
     try {
       // bookmark table update
-      const updatedData = await bookmark.update(req.body, {
+      const updatedData = await bookmarks.update(req.body, {
         where: {
           id: req.params.id,
         },
@@ -108,7 +126,13 @@ class Bookmark {
           id: req.params.id,
         },
         attributes: {
-          exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
+          exclude: [
+            "id_event",
+            "id_user",
+            "createdAt",
+            "updatedAt",
+            "deletedAt",
+          ],
         },
         include: [
           {
@@ -131,7 +155,7 @@ class Bookmark {
   async deleteBookmark(req, res, next) {
     try {
       // delete data
-      let data = await bookmark.destroy({ where: { id: req.params.id } });
+      let data = await bookmarks.destroy({ where: { id: req.params.id } });
 
       // If data deleted is null
       if (!data) {
