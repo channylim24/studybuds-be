@@ -9,6 +9,14 @@ class Comment {
         attributes: {
           exclude: ["id_event", "id_user", "updatedAt"],
         },
+        include: [
+          {
+            model: events,
+          },
+          // {
+          //   model: users,
+          // },
+        ],
       });
       // if there is no data in comment
       if (data.length === 0) {
@@ -30,6 +38,14 @@ class Comment {
         attributes: {
           exclude: ["id_event", "id_user", "updatedAt"],
         },
+        include: [
+          {
+            model: events,
+          },
+          // {
+          //   model: users,
+          // },
+        ],
       });
 
       // if there is no data
@@ -58,6 +74,14 @@ class Comment {
         attributes: {
           exclude: ["id_event", "id_user", "updatedAt"],
         },
+        include: [
+          {
+            model: events,
+          },
+          // {
+          //   model: users,
+          // },
+        ],
       });
 
       res.status(201).json({ data });
@@ -88,6 +112,14 @@ class Comment {
         attributes: {
           exclude: ["id_event", "id_user", "updatedAt"],
         },
+        include: [
+          {
+            model: events,
+          },
+          // {
+          //   model: users,
+          // },
+        ],
       });
       // if success
       res.status(201).json({ data });
