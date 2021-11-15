@@ -9,6 +9,14 @@ class Bookmark {
         attributes: {
           exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
         },
+        include: [
+          {
+            model: events,
+          },
+          // {
+          //   model: users,
+          // },
+        ],
       });
 
       // If there is nothing here
@@ -30,6 +38,14 @@ class Bookmark {
         attributes: {
           exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
         },
+        include: [
+          {
+            model: events,
+          },
+          // {
+          //   model: users,
+          // },
+        ],
       });
 
       // if theres nothing here
@@ -58,6 +74,14 @@ class Bookmark {
         attributes: {
           exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
         },
+        include: [
+          {
+            model: events,
+          },
+          // {
+          //   model: users,
+          // },
+        ],
       });
       res.status(201).json({ data });
     } catch (error) {
@@ -88,6 +112,14 @@ class Bookmark {
         attributes: {
           exclude: ["id_event", "id_user", "createdAt", "updatedAt"],
         },
+        include: [
+          {
+            model: events,
+          },
+          // {
+          //   model: users,
+          // },
+        ],
       });
 
       // if success
