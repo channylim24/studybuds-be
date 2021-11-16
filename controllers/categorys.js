@@ -7,7 +7,7 @@ class Categorys {
       let data = await category.findAll({
         // where: { id_user: req.userData.id },
         attributes: {
-          exclude: ["createdAt", "updatedAt"],
+          exclude: ["createdAt", "updatedAt", 'deletedAt'],
         },
       });
 
