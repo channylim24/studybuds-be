@@ -16,10 +16,10 @@ module.exports = {
     dialect: process.env.DB_DIALECT,
   },
   production: {
-    username: "rlboinubdojyvi",
-    password: "dbd11861c82fbc230ba7302c6aacdc1b1d651f427a992a540904f478be1984e6",
+    username: "kltitvtrevgvlp",
+    password: "b8faae99d64cbd08c7b921d73ab4edf291ac9753717c1953e1b4255d7268a58c",
     database: "d1pu4g94drfqvh",
-    host: "ec2-3-230-149-158.compute-1.amazonaws.com",
+    host: "ec2-44-194-54-186.compute-1.amazonaws.com",
     dialect: "postgres",
     dialectOptions: {
       ssl: {
