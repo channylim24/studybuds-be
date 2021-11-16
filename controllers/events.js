@@ -12,7 +12,7 @@ class Events {
                 isthismonth,
                 isthisyear,
                 comingsoon,
-                title = '',
+                search = '',
             } = req.query;
 
             let cat = req.query.cat
@@ -54,8 +54,8 @@ class Events {
             query += `inner join speakers s on e.id_speaker = s.id `
 
             // filtering search by title
-            if (title) {
-                query += ` where "title" ILIKE '%${title}%' `
+            if (search) {
+                query += ` where "title" ILIKE '%${search}%' `
             }
 
             // calculate date range
