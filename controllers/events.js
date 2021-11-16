@@ -142,6 +142,16 @@ class Events {
 
     static async createEvent(req, res, next) {
         try {
+            // const createdEvent = await event.create(req.body);
+            // const getEvent = await event.findOne({
+            //     where: {
+            //         id: createdEvent.id,
+            //     },
+            const token = req.headers.authorization.replace('Bearer ', '');
+            const currentUser = await user.findOne({
+                where: { token }
+            });
+            req.body.id_user = currentUser.id;
             const createdEvent = await event.create(req.body);
 
             const getEvent = await event.findOne({
@@ -175,15 +185,40 @@ class Events {
 
     static async updateEvent(req, res, next) {
         try {
+            const token = req.headers.authorization.replace('Bearer ', '');
+            const currentUser = await user.findOne({
+                where: { token }
+            });
+            const currentEvent = await event.findOne(
+                { 
+                    where: {
+                        id: req.params.id
+                    }
+                }
+            );
+
+            if (currentEvent === null) {
+                return res.status(404).json({ status: 500, message: 'Event not found' });
+            }
+
+            if (currentUser.id != currentEvent.id_user) {
+                return res.status(404).json({ errors: ['No edit access to this event!'] });
+            }
+
+            if (currentUser == null) {
+                return res.status(404).json({ errors: ['No edit access to this event!'] });
+            }
             const updatedEvent = await event.update(req.body, {
                 where: {
                     id: req.params.id,
                 },
             });
 
-            if (updatedEvent[0] === 0) {
-                return res.status(404).json({ status: 500, success: false, message: 'Event not found - updated event' });
-            }
+            await event.update(req.body, {
+                where: {
+                    id: req.params.id,
+                },
+            });
 
             const getEvent = await event.findOne({
                 where: {
@@ -216,11 +251,30 @@ class Events {
 
     static async deleteEvent(req, res, next) {
         try {
-            let removeEvent = await event.destroy({ where: { id: req.params.id } });
+            const token = req.headers.authorization.replace('Bearer ', '');
+            const currentUser = await user.findOne({
+                where: { token }
+            });
+            const currentEvent = await event.findOne(
+                { 
+                    where: {
+                        id: req.params.id
+                    }
+                }
+            );
 
-            if (!removeEvent) {
-                return res.status(404).json({ status: 404, success: false, message: 'Event not found - delete event' });
+            if (currentEvent === null) {
+                return res.status(404).json({ status: 500, message: 'Event not found' });
             }
+
+            if (currentUser.id != currentEvent.id_user) {
+                return res.status(404).json({ errors: ['No edit access to this event!'] });
+            }
+
+            if (currentUser == null) {
+                return res.status(404).json({ errors: ['No edit access to this event!'] });
+            }
+            await event.destroy({ where: { id: req.params.id } });
 
             res.status(200).json({ status: 200, success: true, message: 'Delete Successful' });
 

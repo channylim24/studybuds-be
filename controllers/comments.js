@@ -1,5 +1,4 @@
-const { comment, event, user } = require("../models");
-
+const { comment, event, user, sequelize } = require("../models");
 class Comment {
   // Get all comment
   async getAllComment(req, res, next) {
@@ -64,6 +63,19 @@ class Comment {
   // Create comment
   async createComment(req, res, next) {
     try {
+      // find event dulu
+      const currentEvent = await sequelize.query(`SELECT * FROM events WHERE id=${req.body.id_event}`);
+      // kalau event null
+      if (!currentEvent[0].length) {
+        return res.status(404).json({ status: 404, message: 'Event not found' });
+      }
+
+      const token = req.headers.authorization.replace('Bearer ', '');
+      const currentUser = await user.findOne({
+          where: { token }
+      });
+      req.body.id_user = currentUser.id;
+
       // create comment
       const newData = await comment.create(req.body);
 
@@ -95,17 +107,31 @@ class Comment {
   // Update data
   async updateComment(req, res, next) {
     try {
+      const token = req.headers.authorization.replace('Bearer ', '');
+      const currentUser = await user.findOne({
+          where: { token }
+      });
+
+      const currentComment = await comment.findOne({ where: { id: req.params.id } });
+
+      if (currentComment === null) {
+          return res.status(404).json({ status: 500, message: 'Comment not found' });
+      }
+
+      if (currentUser.id != currentComment.id_user) {
+          return res.status(404).json({ errors: ['No access to this comment!'] });
+      }
+
+      if (currentUser == null) {
+          return res.status(404).json({ errors: ['No access to this comment!'] });
+      }
       // transaction table update data
-      const updatedData = await comment.update(req.body, {
+      await comment.update(req.body, {
         where: {
           id: req.params.id,
         },
       });
 
-      // If no data updated
-      if (updatedData[0] === 0) {
-        return res.status(404).json({ errors: ["Comment not found"] });
-      }
       // find the updated comment
       const data = await comment.findOne({
         where: {
@@ -134,12 +160,26 @@ class Comment {
   // Delete data
   async deleteComment(req, res, next) {
     try {
-      // delete data
-      let data = await comment.destroy({ where: { id: req.params.id } });
-      // if delete data is null
-      if (!data) {
-        return res.status(404).json({ errors: ["Comment not found"] });
+      const token = req.headers.authorization.replace('Bearer ', '');
+      const currentUser = await user.findOne({
+          where: { token }
+      });
+
+      const currentComment = await comment.findOne({ where: { id: req.params.id } });
+      // if data null
+      if (currentComment === null) {
+          return res.status(404).json({ status: 500, message: 'Comment not found' });
       }
+
+      if (currentUser.id != currentComment.id_user) {
+          return res.status(404).json({ errors: ['No access to delete this comment!'] });
+      }
+
+      if (currentUser == null) {
+          return res.status(404).json({ errors: ['No access to delete this comment!'] });
+      }
+      // delete data
+      await comment.destroy({ where: { id: req.params.id } });
 
       // if success
       res.status(200).json({ message: "Success delete comment" });

@@ -1,4 +1,4 @@
-const { speaker } = require('../models');
+const { speaker, user } = require('../models');
 
 class Speaker {
     // creating speaker
@@ -57,15 +57,9 @@ class Speaker {
     // updating speaker
     async updateSpeaker(req, res, next) {
         try {
-            const updateSpeaker = await speaker.update({
-                where: { 
-                    id: req.params.id
-                },
-                attributes: {exclude: ["createdAt", "updatedAt"]}
-            })
-            if(updateSpeaker[0] === 0) {
-                return res.status(404).json({ errors: ['Speaker not found!'] });
-            }
+            // 1. speaker dibuat oleh id event masing2 yang id event tersebut dibuat oleh user tertentu
+            // 2. hubungkan speaker tersebut dengan event yg membuatnya
+            // 3. beri authority kepada user yang membuat event tersebut unutk menghapus dan meng update
             const data = await speaker.findOne({where: {id: req.params.id}});
 
             res.status(201).json({ data });
@@ -76,8 +70,29 @@ class Speaker {
     // deleting user
     async deleteSpeaker(req, res, next) {
         try {
+            const token = req.headers.authorization.replace('Bearer ', '');
+            const currentUser = await user.findOne({
+                where: { token }
+            });
+            
+            if (currentUser.id != req.params.id) {
+                return res.status(404).json({ errors: ['No edit access to speaker!'] });
+            }
+
+            if (currentUser == null) {
+                return res.status(404).json({ errors: ['No edit access to speaker!'] });
+            }
+
+            else {
+                let { firstName, lastName, email, password, avatar } = req.body;
+                password = encrypt(password)
+                await user.update(
+                    { firstName, lastName, email, password, avatar },
+                    { where: { id: currentUser.id }
+                });
+            }
             const data = await speaker.destroy({
-                where: { id: req.params.id },
+                where: { id: currentUser.id },
                 attributes: {exclude: ["createdAt", "updatedAt"]}
             })
 
