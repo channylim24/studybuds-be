@@ -99,7 +99,7 @@ class Events {
             res.status(200).json({ status: 200, success: true, message: 'Success Retrieve All Event', data: result })
 
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Retrieve All Event', error });
         }
     }
@@ -179,8 +179,8 @@ class Events {
             res.status(201).json({ status: 201, success: true, message: 'Success create event', data: getEvent })
 
         } catch (error) {
-            console.log('error');
-            // res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Create Event' || error.message });
+            // console.log('error');
+            res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Create Event' || error.message });
         }
     }
 
