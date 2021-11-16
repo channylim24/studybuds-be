@@ -35,16 +35,15 @@ app.use(fileUpload());
 app.use(express.static("public"));
 
 // make routes
-app.use("/event", events);
 app.use("/user", users);
 app.use('/login', login);
+app.use("/event", events);
 app.use("/category", categorys);
 app.use("/speaker", speakers);
-app.use("/bookmark", bookmarks);
 app.use("/comment", comments);
+app.use("/bookmark", bookmarks);
 
 app.use(errorHandler);
-
 
 // run the server
 const port = process.env.port || 3000; // define port

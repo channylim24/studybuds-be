@@ -8,21 +8,15 @@ exports.eventValidator = async (req, res, next) => {
         const errors = [];
 
         const {
-            id_user,
             id_category,
             id_speaker,
             title,
-            imageEvent,
             detail,
             dateStart,
             dateEnd,
             organizer,
             link
         } = req.body
-
-        if (!validator.isInt(id_user)) {
-            errors.push('id_user must be a number');
-        }
 
         if (!validator.isInt(id_category)) {
             errors.push('id_category must be a number');
@@ -36,7 +30,7 @@ exports.eventValidator = async (req, res, next) => {
             errors.push('title must be filled');
         }
 
-        if (validator.isEmpty(imageEvent)) {
+        if (req.files === null) {
             errors.push('image must be filled');
         }
 
@@ -56,11 +50,11 @@ exports.eventValidator = async (req, res, next) => {
             return res.status(400).json({ errors: errors });
         }
 
-        if (req.files.imageEvent) {
+        if (req.files != null) {
             const file = req.files.imageEvent;
 
-            if (!file.mimetype.startsWith('imageEvent')) {
-                errors.push('File must be an image');
+            if (!file.mimetype.startsWith('image')) {
+                errors.push('File must be an Image');
             }
 
             if (file.size > 1000000) {

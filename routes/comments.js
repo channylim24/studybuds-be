@@ -18,13 +18,13 @@ const router = express.Router();
 
 // it will find route that has / first. after that it, will find is it GET or POST
 router
-  .route("/event/")
+  .route("/")
   .get(isLogged, getAllComment)
   .post(isLogged, createOrUpdateCommentValidator, createComment);
 
 // it will find route that has /: id first. after that, it will find is it GET or PUT or DELETE
 router
-  .route("/event/:id")
+  .route("/:id")
   .get(isLogged, getDetailComment)
   .put(isLogged, createOrUpdateCommentValidator, updateComment)
   .delete(isLogged, deleteComment);

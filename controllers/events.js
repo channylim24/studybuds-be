@@ -135,7 +135,7 @@ class Events {
             res.status(200).json({ status: 200, success: true, message: 'Success Retrieve Detail Event', data: getDetailEvent });
 
         } catch (error) {
-            console.log(error);
+            // console.log('error');
             res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Retrieve Detail Event' || error.message });
         }
     }
@@ -175,11 +175,12 @@ class Events {
                 ],
             });
 
+
             res.status(201).json({ status: 201, success: true, message: 'Success create event', data: getEvent })
 
         } catch (error) {
-            console.log(error);
-            res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Create Event' || error.message });
+            console.log('error');
+            // res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Create Event' || error.message });
         }
     }
 
@@ -190,7 +191,7 @@ class Events {
                 where: { token }
             });
             const currentEvent = await event.findOne(
-                { 
+                {
                     where: {
                         id: req.params.id
                     }
@@ -256,7 +257,7 @@ class Events {
                 where: { token }
             });
             const currentEvent = await event.findOne(
-                { 
+                {
                     where: {
                         id: req.params.id
                     }
