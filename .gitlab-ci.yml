@@ -13,7 +13,7 @@ include:
 heroku:
  stage: deploy
  only:
- - development
+ - master
  script:
  - git remote add heroku https://git.heroku.com/<Your heroku app name>.git
- - git push -f heroku development
+ - git push -f heroku master
