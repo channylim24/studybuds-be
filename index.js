@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express"); // import express
 const fileUpload = require("express-fileupload");
 const cors = require("cors");
-const path = require('path');
 
 // import routes
 const events = require("./routes/events");
@@ -32,7 +31,7 @@ app.use(cors(corsOptions));
 // Enable req.body (form-data)
 app.use(fileUpload());
 
-// app.use(express.static('public/images/'))
+app.use(express.static(__dirname + '/public'))
 
 // make routes
 app.use("/user", users);
@@ -41,8 +40,8 @@ app.use("/event", events);
 app.use("/category", categorys);
 app.use("/comment", comments);
 app.use("/bookmark", bookmarks);
-app.use('/avatar', express.static("/public" + "/images" + '/avatar'))
-app.use('/event', express.static("/public" + "/images" + '/event'))
+app.use('/avatar', express.static("images" + 'avatar'))
+app.use('/event', express.static("images" + 'event'))
 
 app.use(errorHandler);
 
