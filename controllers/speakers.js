@@ -59,10 +59,36 @@ class Speaker {
             // 1. speaker dibuat oleh id event masing2 yang id event tersebut dibuat oleh user tertentu
             // 2. hubungkan speaker tersebut dengan event yg membuatnya
             // 3. beri authority kepada user yang membuat event tersebut unutk menghapus dan meng update
+            const token = req.headers.authorization.replace('Bearer ', '');
+            const currentUser = await user.findOne({
+                where: { token }
+            });
+
+            const currentSpeaker = await speaker.findOne({
+                where: { id: req.params.id }
+            })
+
+            if (currentSpeaker === null) {
+                return res.status(404).json({ errors: ['No edit access to speaker!'] });
+            }
+
+            // if (currentUser.id != currentSpeaker.id) {
+            //     return res.status(404).json({ errors: ['No edit access to speaker!'] });
+            // }
+
+            if (currentUser == null) {
+                return res.status(404).json({ errors: ['No edit access to speaker!'] });
+            }
+
+            await speaker.update(req.body, {
+                where: { id: req.params.id }
+            })
+
             const data = await speaker.findOne({ where: { id: req.params.id } });
 
             res.status(201).json({ data });
         } catch (error) {
+            console.log(error);
             res.status(500).json({ errors: ['Error updating SPEAKER'], message: error });
         }
     }
