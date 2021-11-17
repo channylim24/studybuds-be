@@ -41,6 +41,6 @@ exports.createSpeakerValidator = async (req, res, next) => {
 
     next();
   } catch (error) {
-    res.status(500).json({ errors: ['Internal Server Error'] });
+    res.status(500).json({ errors: ['Internal Server Error'], message: error });
   }
 };

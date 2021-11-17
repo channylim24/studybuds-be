@@ -48,14 +48,14 @@ module.exports = {
       },
       detail: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING(2000)
       },
       dateStart: {
         allowNull: false,
         type: Sequelize.STRING
       },
       dateEnd: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.STRING
       },
       organizer: {

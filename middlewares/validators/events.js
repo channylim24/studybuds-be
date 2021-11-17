@@ -87,6 +87,6 @@ exports.eventValidator = async (req, res, next) => {
         next();
 
     } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error Validator Event', error });
+        res.status(500).json({ message: 'Internal Server Error Validator Event', errors: error });
     }
 }

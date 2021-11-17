@@ -11,7 +11,7 @@ module.exports = {
           id_speaker: Math.floor(Math.random() * 10) + 1,
           title: faker.commerce.department(),
           imageEvent: faker.image.imageUrl(),
-          detail: faker.lorem.sentence(),
+          detail: faker.lorem.sentences(),
           dateStart: moment().format('YYYY-MM-DD hh:mm'),
           dateEnd: moment().format('YYYY-MM-DD hh:mm'),
           organizer: faker.company.companyName(),

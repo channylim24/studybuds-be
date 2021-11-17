@@ -5,7 +5,7 @@ const { event } = require("../../models");
 exports.createOrUpdateCommentBookmark = async (req, res, next) => {
   try {
     // validate the req
-    const error = [];
+    const errors = [];
 
     if (!validator.isInt(req.body.id_user.toString())) {
       errors.push("ID User must be number (integer");
@@ -15,7 +15,7 @@ exports.createOrUpdateCommentBookmark = async (req, res, next) => {
       errors.push("ID Event must be number (integer");
     }
 
-    if (error.length > 0) {
+    if (errors.length > 0) {
       return res.status(404).json({ errors: errors });
     }
 

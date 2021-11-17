@@ -14,7 +14,7 @@ const verifyToken = token => {
         const verify = jwt.verify(token, process.env.secret);
         return verify;
     } catch (error) {
-        console.log(errors, '<<<<< VERIFY TOKEN JWT');
+        console.log(error, '<<<<< VERIFY TOKEN JWT');
     }
 }
 

@@ -100,7 +100,7 @@ class Events {
 
         } catch (error) {
             // console.log(error);
-            res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Retrieve All Event', error });
+            res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Retrieve All Event', message: error });
         }
     }
 
@@ -136,7 +136,7 @@ class Events {
 
         } catch (error) {
             // console.log('error');
-            res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Retrieve Detail Event' || error.message });
+            res.status(500).json({ status: 500, success: false, errors: ['Internal Server Error Retrieve Detail Event'], message: error });
         }
     }
 
@@ -180,7 +180,7 @@ class Events {
 
         } catch (error) {
             // console.log('error');
-            res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Create Event' || error.message });
+            res.status(500).json({ status: 500, success: false, errors: ['Internal Server Error Create Event'], message: error });
         }
     }
 
@@ -245,8 +245,7 @@ class Events {
             res.status(201).json({ status: 201, success: true, message: 'Success update event', data: getEvent });
 
         } catch (error) {
-            console.log(error);
-            res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Update Event' || error.message });
+            res.status(500).json({ status: 500, success: false, errors: ['Internal Server Error Update Event'], message: error });
         }
     }
 
@@ -280,8 +279,7 @@ class Events {
             res.status(200).json({ status: 200, success: true, message: 'Delete Successful' });
 
         } catch (error) {
-            console.log(error);
-            res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Delete Event' || error.message });
+            res.status(500).json({ status: 500, success: false, errors: ['Internal Server Error Delete Event'], message: error });
         }
     }
 

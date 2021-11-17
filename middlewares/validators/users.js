@@ -41,7 +41,6 @@ exports.createUserValidator = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ errors: ['Internal Server Error test'] });
+    res.status(500).json({ errors: ['Internal Server Error test'], message: error });
   }
 };

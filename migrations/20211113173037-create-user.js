@@ -35,6 +35,10 @@ module.exports = {
           len: [10, 20]
         }
       },
+      token: {
+        allowNull: true,
+        type: Sequelize.STRING(1234)
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

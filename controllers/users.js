@@ -26,7 +26,7 @@ class User {
                     where: {
                         id: newData.id
                     },
-                    attributes: { exclude: ["avatar", "updatedAt", "deletedAt" ] }
+                    attributes: { exclude: ["avatar", "updatedAt", "deletedAt"] }
                 })
                 res.status(201).json({ resData });
             } else {
@@ -35,25 +35,23 @@ class User {
                 res.status(400).json(["Email ini sudah terdaftar, silahkan cari email lain"]);
             }
         } catch (error) {
-            console.error(error)
-            res.status(500).json(["ERROR Creating User"]);
+            res.status(500).json({ errors: ["ERROR Creating User"], message: error });
         }
     }
     // show all user
     async allUser(req, res, next) {
         try {
             const data = await user.findAll({
-                attributes: { exclude: ["createdAt", "updatedAt" , "deletedAt", "avatar", "password"] }
+                attributes: { exclude: ["createdAt", "updatedAt", "deletedAt", "avatar", "password"] }
             })
 
-            if(data.length === 0) {
+            if (data.length === 0) {
                 return res.status(404).json(['User not found!'])
             }
 
             res.status(200).json({ data });
         } catch (error) {
-            console.error(error);
-            res.status(500).json(['Error getting all USER']);
+            res.status(500).json({ errors: ['Error getting all USER'], message: error });
         }
     }
     // show specific user
@@ -63,16 +61,16 @@ class User {
                 where: {
                     id: req.params.id
                 },
-                attributes: { exclude: ["password"]}
-            },);
+                attributes: { exclude: ["password"] }
+            });
 
             if (!data) {
-            return res.status(404).json({ errors: ["User not found"] });
+                return res.status(404).json({ errors: ["User not found"] });
             }
 
             res.status(200).json({ data });
         } catch (error) {
-            res.status(500).json(['Error getting all USER']);
+            res.status(500).json({ errors: ['Error getting all USER'], message: error });
         }
     }
     // updating user
@@ -82,7 +80,7 @@ class User {
             const currentUser = await user.findOne({
                 where: { token }
             });
-            
+
             if (currentUser.id != req.params.id) {
                 return res.status(404).json({ errors: ['No edit access to this user!'] });
             }
@@ -98,8 +96,9 @@ class User {
                 password = encrypt(password)
                 await user.update(
                     { firstName, lastName, email, password, avatar },
-                    { where: { id: currentUser.id }
-                });
+                    {
+                        where: { id: currentUser.id }
+                    });
             }
             // const updateUser = await user.update({
             //     where: { 
@@ -110,12 +109,11 @@ class User {
             // if(updateUser[0] === 0) {
             //     return res.status(404).json({ errors: ['User not found!'] });
             // }
-            const data = await user.findOne({where: { id: currentUser.id }});
+            const data = await user.findOne({ where: { id: currentUser.id } });
 
             res.status(201).json({ data });
         } catch (error) {
-            console.error(error)
-            res.status(500).json(['Error updating USER']);
+            res.status(500).json({ errors: ['Error updating USER'], message: error });
         }
     }
     // deleting user
@@ -125,7 +123,7 @@ class User {
             const currentUser = await user.findOne({
                 where: { token }
             });
-            
+
             if (currentUser.id != req.params.id) {
                 return res.status(404).json({ errors: ['No delete access to this user!'] });
             }
@@ -139,30 +137,30 @@ class User {
                 attributes: { exclude: ["createdAt", "updatedAt", "password"] },
             })
 
-            if(!data) {
+            if (!data) {
                 return res.status(404).json({ errors: ['User not found!'] });
             }
 
             res.status(200).json({ messages: ['User account has successfully been deleted!'] });
         } catch (error) {
-            res.status(500).json(['Error updating USER']);
+            res.status(500).json({ errors: ['Error updating USER'], message: error });
         }
     }
     // =============================================================================================================
     // Login
     async loginUser(req, res, next) {
         // untuk cek email di database
-        const data = await user.findOne({ 
+        const data = await user.findOne({
             where: { email: req.body.email },
         });
-        
-        if(data == null) {
-            return res.status(404).json({ errors: ['Email yang diisi salah']})
+
+        if (data == null) {
+            return res.status(404).json({ errors: ['Email yang diisi salah'] })
         }
         // cek apa password memang dimiliki oleh email yang diinput
         let validPass = decrypt(req.body.password, data.password);
-        if(!validPass) {
-            return res.status(404).json({ errors: ['Kata sandi yang dimasukkan salah']})
+        if (!validPass) {
+            return res.status(404).json({ errors: ['Kata sandi yang dimasukkan salah'] })
         }
 
         const {
@@ -177,7 +175,7 @@ class User {
         await sequelize.query(`UPDATE users SET token='${token}' WHERE id=${data.id}`);
         return res.status(200).json({ statusCode: 200, message: "Login success!", token });
     }
-    
+
 }
 
 module.exports = new User();

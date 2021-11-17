@@ -23,7 +23,7 @@ class Categorys {
 
       res.status(200).json({ data });
     } catch (error) {
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      res.status(500).json({ errors: ["Internal Server Error Get All Category"], message: error });
     }
   }
 
@@ -50,7 +50,7 @@ class Categorys {
       res.status(200).json({ data });
     } catch (error) {
       // if error
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      res.status(500).json({ errors: ["Internal Server Error Get One Category"], message: error });
     }
   }
   async createCategory(req, res, next) {
@@ -68,9 +68,7 @@ class Categorys {
       //   return next({ message: " id user not correct", statusCode: 404 });
       // }
     } catch (error) {
-      // if error
-      console.log(error);
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      res.status(500).json({ errors: ["Internal Server Error Create Event"], message: error });
     }
   }
   async updateCategory(req, res, next) {
@@ -97,7 +95,7 @@ class Categorys {
 
       res.status(201).json({ data });
     } catch (error) {
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      res.status(500).json({ errors: ["Internal Server Error Update Category"], message: error });
     }
   }
   async deleteCategory(req, res, next) {
@@ -115,7 +113,7 @@ class Categorys {
       // If success
       res.status(200).json({ message: "Success delete Category" });
     } catch (error) {
-      res.status(500).json({ errors: ["Internal Server Error"] });
+      res.status(500).json({ errors: ["Internal Server Error Delete Category"], message: error });
     }
   }
 }
