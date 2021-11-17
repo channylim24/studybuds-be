@@ -41,8 +41,8 @@ app.use("/event", events);
 app.use("/category", categorys);
 app.use("/comment", comments);
 app.use("/bookmark", bookmarks);
-app.get('/avatar', express.static("/public" + "/images" + '/avatar'))
-app.get('/event', express.static("/public" + "/images" + '/event'))
+app.use('/avatar', express.static("/public" + "/images" + '/avatar'))
+app.use('/event', express.static("/public" + "/images" + '/event'))
 
 app.use(errorHandler);
 
