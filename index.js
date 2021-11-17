@@ -7,7 +7,6 @@ const cors = require("cors");
 const events = require("./routes/events");
 const users = require("./routes/users");
 const categorys = require("./routes/categorys");
-const speakers = require("./routes/speakers");
 const bookmarks = require("./routes/bookmarks");
 const comments = require("./routes/comments");
 const login = require('./routes/login');
@@ -39,7 +38,6 @@ app.use("/user", users);
 app.use('/login', login);
 app.use("/event", events);
 app.use("/category", categorys);
-app.use("/speaker", speakers);
 app.use("/comment", comments);
 app.use("/bookmark", bookmarks);
 

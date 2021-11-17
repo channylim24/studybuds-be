@@ -37,7 +37,7 @@ module.exports = {
       },
       token: {
         allowNull: true,
-        type: Sequelize.STRING(1234)
+        type: Sequelize.STRING(2000)
       },
       createdAt: {
         allowNull: false,

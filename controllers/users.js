@@ -42,7 +42,7 @@ class User {
     async allUser(req, res, next) {
         try {
             const data = await user.findAll({
-                attributes: { exclude: ["createdAt", "updatedAt", "deletedAt", "avatar", "password"] }
+                attributes: { exclude: ["createdAt", "updatedAt", "deletedAt", "token", "password"] }
             })
 
             if (data.length === 0) {
@@ -61,7 +61,7 @@ class User {
                 where: {
                     id: req.params.id
                 },
-                attributes: { exclude: ["password"] }
+                attributes: { exclude: ["createdAt", "updatedAt", "deletedAt", "password", "token"] }
             });
 
             if (!data) {
@@ -133,8 +133,7 @@ class User {
             }
 
             const data = await user.destroy({
-                where: { id: currentUser.id },
-                attributes: { exclude: ["createdAt", "updatedAt", "password"] },
+                where: { id: currentUser.id }
             })
 
             if (!data) {

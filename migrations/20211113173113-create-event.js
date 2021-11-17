@@ -28,16 +28,6 @@ module.exports = {
         onUpdate: 'cascade',
         onDelete: 'cascade'
       },
-      id_speaker: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'speakers',
-          key: 'id'
-        },
-        onUpdate: 'cascade',
-        onDelete: 'cascade'
-      },
       title: {
         allowNull: false,
         type: Sequelize.STRING
@@ -48,7 +38,7 @@ module.exports = {
       },
       detail: {
         allowNull: false,
-        type: Sequelize.STRING(2000)
+        type: Sequelize.STRING(3000)
       },
       dateStart: {
         allowNull: false,
@@ -63,6 +53,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       link: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      nameSpeaker: {
         allowNull: false,
         type: Sequelize.STRING
       },

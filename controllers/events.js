@@ -1,4 +1,4 @@
-const { event, user, category, speaker, bookmark, comment, sequelize } = require('../models');
+const { event, user, category, bookmark, comment, sequelize } = require('../models');
 const { Op } = require('sequelize');
 const moment = require('moment');
 
@@ -119,10 +119,6 @@ class Events {
                         attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
                     },
                     {
-                        model: speaker,
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
-                    },
-                    {
                         model: comment,
                     }
                 ],
@@ -166,10 +162,6 @@ class Events {
                     },
                     {
                         model: category,
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
-                    },
-                    {
-                        model: speaker,
                         attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
                     },
                 ],
@@ -235,10 +227,6 @@ class Events {
                         model: category,
                         attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
                     },
-                    {
-                        model: speaker,
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
-                    }
                 ]
             });
 

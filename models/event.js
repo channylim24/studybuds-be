@@ -23,9 +23,6 @@ module.exports = (sequelize, DataTypes) => {
       models.event.belongsTo(models.category, {
         foreignKey: 'id_category'
       })
-      models.event.belongsTo(models.speaker, {
-        foreignKey: 'id_speaker'
-      })
     }
   };
   event.init({
@@ -36,9 +33,9 @@ module.exports = (sequelize, DataTypes) => {
     dateEnd: DataTypes.STRING,
     organizer: DataTypes.STRING,
     link: DataTypes.STRING,
+    nameSpeaker: DataTypes.STRING,
     id_user: DataTypes.INTEGER,
-    id_category: DataTypes.INTEGER,
-    id_speaker: DataTypes.INTEGER
+    id_category: DataTypes.INTEGER
   }, {
     sequelize,
     paranoid: true,
