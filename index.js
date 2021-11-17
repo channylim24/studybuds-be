@@ -43,8 +43,6 @@ app.use("/event", events);
 app.use("/category", categorys);
 app.use("/comment", comments);
 app.use("/bookmark", bookmarks);
-app.use('/images', express.static('user'))
-app.use("/images", express.static())
 
 app.use(errorHandler);
 
