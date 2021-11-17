@@ -18,6 +18,7 @@ class Comment {
             attributes: ['avatar', 'firstName']
           },
         ],
+        order: [['id', 'desc']]
       });
       // if there is no data in comment
       if (data.length === 0) {
