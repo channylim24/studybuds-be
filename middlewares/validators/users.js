@@ -32,7 +32,7 @@ exports.createUserValidator = async (req, res, next) => {
 
       const move = promisify(file.mv);
 
-      await move(`./public/images/user${file.name}`);
+      await move(`./public/images/user/${file.name}`);
 
       req.body.avatar = file.name;
     } else {
