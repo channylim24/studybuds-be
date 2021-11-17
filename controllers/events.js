@@ -59,15 +59,15 @@ class Events {
             // calculate date range
             if (date) {
                 date = date.split('-')
-                query += ` where ("dateStart" < '${date[0]}-${date[1]}-${date[2]} 23:59:59' and "dateStart" > '${date[0]}-${date[1]}-${date[2]} 00:00:00')`
+                query += ` and ("dateStart" < '${date[0]}-${date[1]}-${date[2]} 23:59:59' and "dateStart" > '${date[0]}-${date[1]}-${date[2]} 00:00:00')`
             } else if (startDate && endDate) {
                 startDate = startDate.split('-')
                 endDate = endDate.split('-')
-                query += ` where ("dateStart" < '${endDate[0]}-${endDate[1]}-${endDate[2]} 23:59:59' and "dateStart" > '${startDate[0]}-${startDate[1]}-${startDate[2]} 00:00:00')`
+                query += ` and ("dateStart" < '${endDate[0]}-${endDate[1]}-${endDate[2]} 23:59:59' and "dateStart" > '${startDate[0]}-${startDate[1]}-${startDate[2]} 00:00:00')`
             }
 
             // filtering by date, date range & category
-            if ((date || (startDate && endDate)) && cat) {
+            if (search || (date || (startDate && endDate)) && cat) {
                 query += ` and "id_category" = ${cat} `
             } else if (cat) {
                 query += ` where "id_category" = ${cat} `
