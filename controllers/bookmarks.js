@@ -8,8 +8,6 @@ class Bookmark {
         // find all data in table bookmark
         attributes: {
           exclude: [
-            "id_event",
-            "id_user",
             "createdAt",
             "updatedAt",
             "deletedAt",
@@ -18,10 +16,11 @@ class Bookmark {
         include: [
           {
             model: event,
+            attributes: ['title'],
           },
           {
             model: user,
-            attributes: { exclude: ['password'] }
+            attributes: ['email']
           },
         ],
       });
@@ -40,29 +39,27 @@ class Bookmark {
     try {
       const token = req.headers.authorization.replace('Bearer ', '');
       const currentUser = await user.findOne({
-          where: { token }
+        where: { token }
       });
 
       const currentBookmark = await bookmark.findOne({ where: { id: req.params.id } });
       // if theres nothing here
       if (currentBookmark === null) {
-          return res.status(404).json({ status: 500, message: 'Bookmark not found' });
+        return res.status(404).json({ status: 500, message: 'Bookmark not found' });
       }
 
       if (currentUser.id != currentBookmark.id_user) {
-          return res.status(404).json({ errors: ['No access to this bookmark!'] });
+        return res.status(404).json({ errors: ['No access to this bookmark!'] });
       }
 
       if (currentUser == null) {
-          return res.status(404).json({ errors: ['No access to this bookmark!'] });
+        return res.status(404).json({ errors: ['No access to this bookmark!'] });
       }
       let data = await bookmark.findOne({
         // find all data of bookmark table
         where: { id: req.params.id },
         attributes: {
           exclude: [
-            "id_event",
-            "id_user",
             "createdAt",
             "updatedAt",
             "deletedAt",
@@ -71,10 +68,11 @@ class Bookmark {
         include: [
           {
             model: event,
+            attributes: ['title'],
           },
           {
             model: user,
-            attributes: { exclude: ['password'] }
+            attributes: ['email'],
           },
         ],
       });
@@ -90,7 +88,7 @@ class Bookmark {
     try {
       const token = req.headers.authorization.replace('Bearer ', '');
       const currentUser = await user.findOne({
-          where: { token }
+        where: { token }
       });
       req.body.id_user = currentUser.id;
       // create bookmark
@@ -103,8 +101,6 @@ class Bookmark {
         },
         attributes: {
           exclude: [
-            "id_event",
-            "id_user",
             "createdAt",
             "updatedAt",
             "deletedAt",
@@ -113,10 +109,11 @@ class Bookmark {
         include: [
           {
             model: event,
+            attributes: ['title'],
           },
           {
             model: user,
-            attributes: { exclude: ['password'] }
+            attributes: ['email'],
           },
         ],
       });
@@ -131,26 +128,26 @@ class Bookmark {
     try {
       const token = req.headers.authorization.replace('Bearer ', '');
       const currentUser = await user.findOne({
-          where: { token }
+        where: { token }
       });
       const currentBookmark = await bookmark.findOne(
-          { 
-              where: {
-                  id: req.params.id
-              }
+        {
+          where: {
+            id: req.params.id
           }
+        }
       );
 
       if (currentBookmark === null) {
-          return res.status(404).json({ status: 500, message: 'Bookmark not found' });
+        return res.status(404).json({ status: 500, message: 'Bookmark not found' });
       }
 
       if (currentUser.id != currentBookmark.id_user) {
-          return res.status(404).json({ errors: ['No delete access to this bookmark!'] });
+        return res.status(404).json({ errors: ['No update access to this bookmark!'] });
       }
 
       if (currentUser == null) {
-          return res.status(404).json({ errors: ['No delete access to this bookmark!'] });
+        return res.status(404).json({ errors: ['No update access to this bookmark!'] });
       }
       // bookmark table update
       await bookmark.update(req.body, {
@@ -166,8 +163,6 @@ class Bookmark {
         },
         attributes: {
           exclude: [
-            "id_event",
-            "id_user",
             "createdAt",
             "updatedAt",
             "deletedAt",
@@ -176,10 +171,11 @@ class Bookmark {
         include: [
           {
             model: event,
+            attributes: ['title'],
           },
           {
             model: user,
-            attributes: { exclude: ['password'] }
+            attributes: ['email'],
           },
         ],
       });
@@ -196,26 +192,26 @@ class Bookmark {
     try {
       const token = req.headers.authorization.replace('Bearer ', '');
       const currentUser = await user.findOne({
-          where: { token }
+        where: { token }
       });
       const currentBookmark = await bookmark.findOne(
-          { 
-              where: {
-                  id: req.params.id
-              }
+        {
+          where: {
+            id: req.params.id
           }
+        }
       );
 
       if (currentBookmark === null) {
-          return res.status(404).json({ status: 500, message: 'Bookmark not found' });
+        return res.status(404).json({ status: 500, message: 'Bookmark not found' });
       }
 
       if (currentUser.id != currentBookmark.id_user) {
-          return res.status(404).json({ errors: ['No delete access to this bookmark!'] });
+        return res.status(404).json({ errors: ['No delete access to this bookmark!'] });
       }
 
       if (currentUser == null) {
-          return res.status(404).json({ errors: ['No delete access to this bookmark!'] });
+        return res.status(404).json({ errors: ['No delete access to this bookmark!'] });
       }
       // delete data
       await bookmark.destroy({ where: { id: req.params.id } });

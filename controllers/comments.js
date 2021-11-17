@@ -63,6 +63,7 @@ class Comment {
   // Create comment
   async createComment(req, res, next) {
     try {
+
       // find event dulu
       const currentEvent = await sequelize.query(`SELECT * FROM events WHERE id=${req.body.id_event}`);
       // kalau event null
@@ -72,7 +73,7 @@ class Comment {
 
       const token = req.headers.authorization.replace('Bearer ', '');
       const currentUser = await user.findOne({
-          where: { token }
+        where: { token }
       });
       req.body.id_user = currentUser.id;
 
@@ -90,16 +91,18 @@ class Comment {
         include: [
           {
             model: event,
+            attributes: { exclude: ['id_user', 'id_category', 'deletedAt'] }
           },
           {
             model: user,
-            attributes: { exclude: ['password'] }
+            attributes: { exclude: ['password', 'token', 'deletedAt'] }
           },
         ],
       });
 
       res.status(201).json({ data });
     } catch (error) {
+      // console.log(error, '<<<<<<<<<<<<<<<<<<<< ERROR');
       next(error);
     }
   }
@@ -109,21 +112,21 @@ class Comment {
     try {
       const token = req.headers.authorization.replace('Bearer ', '');
       const currentUser = await user.findOne({
-          where: { token }
+        where: { token }
       });
 
       const currentComment = await comment.findOne({ where: { id: req.params.id } });
 
       if (currentComment === null) {
-          return res.status(404).json({ status: 500, message: 'Comment not found' });
+        return res.status(404).json({ status: 500, message: 'Comment not found' });
       }
 
       if (currentUser.id != currentComment.id_user) {
-          return res.status(404).json({ errors: ['No access to this comment!'] });
+        return res.status(404).json({ errors: ['No access to this comment!'] });
       }
 
       if (currentUser == null) {
-          return res.status(404).json({ errors: ['No access to this comment!'] });
+        return res.status(404).json({ errors: ['No access to this comment!'] });
       }
       // transaction table update data
       await comment.update(req.body, {
@@ -162,21 +165,21 @@ class Comment {
     try {
       const token = req.headers.authorization.replace('Bearer ', '');
       const currentUser = await user.findOne({
-          where: { token }
+        where: { token }
       });
 
       const currentComment = await comment.findOne({ where: { id: req.params.id } });
       // if data null
       if (currentComment === null) {
-          return res.status(404).json({ status: 500, message: 'Comment not found' });
+        return res.status(404).json({ status: 500, message: 'Comment not found' });
       }
 
       if (currentUser.id != currentComment.id_user) {
-          return res.status(404).json({ errors: ['No access to delete this comment!'] });
+        return res.status(404).json({ errors: ['No access to delete this comment!'] });
       }
 
       if (currentUser == null) {
-          return res.status(404).json({ errors: ['No access to delete this comment!'] });
+        return res.status(404).json({ errors: ['No access to delete this comment!'] });
       }
       // delete data
       await comment.destroy({ where: { id: req.params.id } });

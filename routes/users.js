@@ -16,19 +16,19 @@ const {
 const router = express.Router();
 // register
 router
-.route("/register")
-.post(createUserValidator, registerUser)
+    .route("/register")
+    .post(createUserValidator, registerUser)
 
 // routes
 router
-.route('/')
-.get(isLogged, allUser)
+    .route('/')
+    .get(isLogged, allUser)
 
 router
-.route('/:id')
-.get(isLogged, detailUser)
-.put(isLogged, createUserValidator, updateUser)
-.delete(isLogged, deleteUser)
+    .route('/:id')
+    .get(isLogged, detailUser)
+    .put(isLogged, createUserValidator, updateUser)
+    .delete(isLogged, deleteUser)
 
 // export
 module.exports = router;

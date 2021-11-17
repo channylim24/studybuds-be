@@ -45,13 +45,11 @@ class Events {
             }
 
             // manual query database
-            let query = `select e.id , u."firstName" , e."imageEvent" , e.title , c."name" as category ,`
-            query += `e.detail , e.organizer , e.link , e."dateStart" , e."dateEnd" , s."imageSpeaker" ,`
-            query += `s."name" as speakerName `
+            let query = `select e.id , e."imageEvent" , e.title , c."name" as category ,`
+            query += `e.detail , e.organizer , e.link , e."nameSpeaker" , e."dateStart" , e."dateEnd" , e."deletedAt" `
             query += `from events e `
             query += `inner join users u on e.id_user = u.id `
             query += `inner join categories c on e.id_category = c.id `
-            query += `inner join speakers s on e.id_speaker = s.id `
 
             // filtering search by title
             if (search) {
@@ -76,7 +74,7 @@ class Events {
             }
 
             // filtering order
-            query += `order by "dateStart" ${order}`
+            query += `order by "id" ${order}`
             let getEvents = await sequelize.query(query)
             getEvents = getEvents[0]
 
@@ -108,11 +106,11 @@ class Events {
         try {
             let getDetailEvent = await event.findOne({
                 where: { id: req.params.id },
-                attributes: { exclude: ['id_user', 'id_category', 'id_speaker'] },
+                attributes: { exclude: ['id_user', 'id_category'] },
                 include: [
                     {
                         model: user,
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt', 'password'] },
+                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt', 'password', 'token'] },
                     },
                     {
                         model: category,
@@ -147,18 +145,20 @@ class Events {
             const currentUser = await user.findOne({
                 where: { token }
             });
+
             req.body.id_user = currentUser.id;
+
             const createdEvent = await event.create(req.body);
 
             const getEvent = await event.findOne({
                 where: {
                     id: createdEvent.id,
                 },
-                attributes: { exclude: ['id_user', 'id_customer', 'id_speaker'] },
+                attributes: { exclude: ['id_user', 'id_customer'] },
                 include: [
                     {
                         model: user,
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt', 'password'] },
+                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt', 'token', 'password'] },
                     },
                     {
                         model: category,
@@ -171,7 +171,7 @@ class Events {
             res.status(201).json({ status: 201, success: true, message: 'Success create event', data: getEvent })
 
         } catch (error) {
-            // console.log('error');
+            // console.log(error);
             res.status(500).json({ status: 500, success: false, errors: ['Internal Server Error Create Event'], message: error });
         }
     }
@@ -217,11 +217,11 @@ class Events {
                 where: {
                     id: req.params.id,
                 },
-                attributes: { exclude: ['id_user', 'id_customer', 'id_speaker', 'createdAt', 'updatedAt', 'deletedAt'] },
+                attributes: { exclude: ['id_user', 'id_customer', 'createdAt', 'updatedAt', 'deletedAt'] },
                 include: [
                     {
                         model: user,
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt', 'password'] },
+                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt', 'token', 'password'] },
                     },
                     {
                         model: category,

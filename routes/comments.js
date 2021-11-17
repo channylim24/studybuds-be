@@ -19,7 +19,7 @@ const router = express.Router();
 // it will find route that has / first. after that it, will find is it GET or POST
 router
   .route("/")
-  .get(isLogged, getAllComment)
+  .get(getAllComment)
   .post(isLogged, createOrUpdateCommentValidator, createComment);
 
 // it will find route that has /: id first. after that, it will find is it GET or PUT or DELETE

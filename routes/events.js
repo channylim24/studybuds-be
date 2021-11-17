@@ -10,7 +10,7 @@ const { eventValidator } = require('../middlewares/validators/events')
 
 const router = express.Router();
 
-router.get('/', isLogged, retrieveAllEvent);
+router.get('/', retrieveAllEvent);
 router.get('/:id', isLogged, retrieveDetailEvent);
 router.post('/', isLogged, eventValidator, createEvent);
 router.put('/:id', isLogged, updateEvent);

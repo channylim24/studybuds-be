@@ -9,7 +9,6 @@ exports.eventValidator = async (req, res, next) => {
 
         const {
             id_category,
-            id_speaker,
             title,
             detail,
             dateStart,
@@ -20,10 +19,6 @@ exports.eventValidator = async (req, res, next) => {
 
         if (!validator.isInt(id_category)) {
             errors.push('id_category must be a number');
-        }
-
-        if (!validator.isInt(id_speaker)) {
-            errors.push('id_speaker must be a number');
         }
 
         if (validator.isEmpty(title)) {

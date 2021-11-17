@@ -7,10 +7,6 @@ exports.createOrUpdateCommentValidator = async (req, res, next) => {
     // validate the req
     const errors = [];
 
-    if (!validator.isInt(req.body.id_user.toString())) {
-      errors.push("ID User must be number (integer");
-    }
-
     if (!validator.isInt(req.body.id_event.toString())) {
       errors.push("ID Event must be number (integer");
     }
