@@ -12,7 +12,7 @@ class User {
                 where: {
                     email: req.body.email
                 },
-                attributes: { exclude: ["avatar", "updatedAt", "deletedAt", "password"] }
+                attributes: { exclude: ["avatar", "updatedAt", "deletedAt", "password", "token"] }
             })
             if (data == null) {
                 let { firstName, lastName, email, password, avatar } = req.body;
@@ -26,7 +26,7 @@ class User {
                     where: {
                         id: newData.id
                     },
-                    attributes: { exclude: ["avatar", "updatedAt", "deletedAt"] }
+                    attributes: { exclude: ["avatar", "updatedAt", "deletedAt", "password", "token"] }
                 })
                 res.status(201).json({ resData });
             } else {
@@ -42,7 +42,7 @@ class User {
     async allUser(req, res, next) {
         try {
             const data = await user.findAll({
-                attributes: { exclude: ["createdAt", "updatedAt", "deletedAt", "password"] }
+                attributes: { exclude: ["createdAt", "updatedAt", "deletedAt", "token", "password"] }
             })
 
             if (data.length === 0) {
@@ -61,7 +61,7 @@ class User {
                 where: {
                     id: req.params.id
                 },
-                attributes: { exclude: ["createdAt", "updatedAt", "deletedAt", "password"] }
+                attributes: { exclude: ["createdAt", "updatedAt", "deletedAt", "token", "password"] }
             });
 
             if (!data) {
