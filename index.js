@@ -31,7 +31,7 @@ app.use(cors(corsOptions));
 // Enable req.body (form-data)
 app.use(fileUpload());
 
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/public/images'))
 
 // make routes
 app.use("/user", users);
@@ -40,8 +40,8 @@ app.use("/event", events);
 app.use("/category", categorys);
 app.use("/comment", comments);
 app.use("/bookmark", bookmarks);
-app.use('/avatar', express.static("images" + 'avatar'))
-app.use('/event', express.static("images" + 'event'))
+app.use('/avatar', express.static('avatar'))
+app.use('/event', express.static('event'))
 
 app.use(errorHandler);
 
