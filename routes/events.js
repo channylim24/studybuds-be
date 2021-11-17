@@ -13,7 +13,7 @@ const router = express.Router();
 router.get('/', retrieveAllEvent);
 router.get('/:id', isLogged, retrieveDetailEvent);
 router.post('/', isLogged, eventValidator, createEvent);
-router.put('/:id', isLogged, updateEvent);
+router.put('/:id', isLogged, eventValidator, updateEvent);
 router.delete('/:id', isLogged, deleteEvent);
 
 module.exports = router;
