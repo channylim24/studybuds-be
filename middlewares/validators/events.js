@@ -74,7 +74,7 @@ exports.eventValidator = async (req, res, next) => {
 
             const move = promisify(file.mv);
 
-            await move(`./public/images/event/${file.name}`);
+            await move(`public/images/event/${file.name}`);
 
             req.body.imageEvent = file.name;
         }
