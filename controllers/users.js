@@ -97,7 +97,8 @@ class User {
                 await user.update(
                     { firstName, lastName, email, password, avatar },
                     {
-                        where: { id: currentUser.id }
+                        where: { id: currentUser.id },
+
                     });
             }
             // const updateUser = await user.update({
@@ -109,7 +110,10 @@ class User {
             // if(updateUser[0] === 0) {
             //     return res.status(404).json({ errors: ['User not found!'] });
             // }
-            const data = await user.findOne({ where: { id: currentUser.id } });
+            const data = await user.findOne({
+                where: { id: currentUser.id },
+                attributes: { exclude: ['password', 'token'] }
+            });
 
             res.status(201).json({ data });
         } catch (error) {
