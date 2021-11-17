@@ -39,8 +39,8 @@ app.use("/event", events);
 app.use("/category", categorys);
 app.use("/comment", comments);
 app.use("/bookmark", bookmarks);
-app.use('/avatar', express.static('public'))
-app.use('/event', express.static('public'))
+app.use('/avatar', express.static(__dirname + '/public' + '/images' + '/avatar'))
+app.use('/event', express.static(__dirname + '/public' + '/images' + '/event'))
 
 app.use(errorHandler);
 
