@@ -65,8 +65,8 @@ exports.eventValidator = async (req, res, next) => {
                 errors.push('File must be an Image');
             }
 
-            if (file.size > 1000000) {
-                errors.push('image must be less than 1MB');
+            if (file.size > 2000000) {
+                errors.push('image must be less than 2MB');
             }
 
             if (errors.length > 0) {
@@ -79,7 +79,7 @@ exports.eventValidator = async (req, res, next) => {
 
             const move = promisify(file.mv);
 
-            await move(`./public/images/event/${file.name}`);
+            await move(`./public/images/events/${file.name}`);
 
             req.body.imageEvent = `https://api-see-event-teamb.herokuapp.com/images/events/${file.name}`;
         }

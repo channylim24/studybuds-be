@@ -32,7 +32,7 @@ exports.createUserValidator = async (req, res, next) => {
 
       const move = promisify(file.mv);
 
-      await move(`./public/images/avatar/${file.name}`);
+      await move(`./public/images/avatars/${file.name}`);
 
       req.body.avatar = `https://api-see-event-teamb.herokuapp.com/images/avatars/${file.name}`;
     } else {
