@@ -80,15 +80,12 @@ class Comment {
 
       // create comment
       const newData = await comment.create(req.body);
-
       // find event with join
       const data = await comment.findOne({
         where: {
           id: newData.id,
         },
-        attributes: {
-          exclude: ["id_event", "id_user", "updatedAt", "deletedAt"],
-        },
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
         include: [
           {
             model: event,
