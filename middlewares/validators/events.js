@@ -14,7 +14,8 @@ exports.eventValidator = async (req, res, next) => {
             dateStart,
             dateEnd,
             organizer,
-            link
+            link,
+            nameSpeaker
         } = req.body
 
         if (!validator.isInt(id_category)) {
@@ -47,6 +48,10 @@ exports.eventValidator = async (req, res, next) => {
 
         if (validator.isEmpty(link)) {
             errors.push('link must be filled');
+        }
+
+        if (validator.isEmpty(nameSpeaker)) {
+            errors.push('name speaker must be filled');
         }
 
         if (errors.length > 0) {
