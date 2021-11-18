@@ -70,10 +70,8 @@ class Events {
             // filtering by date, date range & category
             if (search && (date || (startDate && endDate)) && cat) {
                 query += ` and "id_category" = ${cat} `
-                console.log('date>>>>>>>>>>>>>>>>>>>>>>>');
             } else if (cat) {
                 query += ` and "id_category" = ${cat} `
-                console.log(('else if date >>>>>>>>>>>>>>>>>>'));
             }
 
             // filtering order
