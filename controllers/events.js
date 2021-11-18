@@ -50,10 +50,11 @@ class Events {
             query += `from events e `
             query += `inner join users u on e.id_user = u.id `
             query += `inner join categories c on e.id_category = c.id `
+            query += `where e."deletedAt" isnull `
 
             // filtering search by title
             if (search) {
-                query += ` where "title" ILIKE '%${search}%' `
+                query += ` and "title" ILIKE '%${search}%' `
             }
 
             // calculate date range
@@ -67,10 +68,12 @@ class Events {
             }
 
             // filtering by date, date range & category
-            if (search || (date || (startDate && endDate)) && cat) {
+            if (search && (date || (startDate && endDate)) && cat) {
                 query += ` and "id_category" = ${cat} `
+                console.log('date>>>>>>>>>>>>>>>>>>>>>>>');
             } else if (cat) {
-                query += ` where "id_category" = ${cat} `
+                query += ` and "id_category" = ${cat} `
+                console.log(('else if date >>>>>>>>>>>>>>>>>>'));
             }
 
             // filtering order
@@ -94,7 +97,7 @@ class Events {
 
             const result = page && limit ? getEvents.slice(startIndex, endIndex) : getEvents
 
-            res.status(200).json({ status: 200, success: true, message: 'Success Retrieve All Event', data: result })
+            res.status(200).json({ status: 200, success: true, 'total data': getEvents.length, message: 'Success Retrieve All Event', data: result })
 
         } catch (error) {
             // console.log(error);
