@@ -31,21 +31,21 @@ app.use(cors(corsOptions));
 // Enable req.body (form-data)
 app.use(fileUpload());
 
-// app.use(express.static(__dirname + '/public' + '/images'))
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public' + '/images'))
+// app.use(express.static('public'));
 
-const cloudinary = require("cloudinary").v2;
+// const cloudinary = require("cloudinary").v2;
 // cloudinary.config({
 //     cloud_name: "dquhych7x",
 //     api_key: "614927963312361",
 //     api_secret: "cF1wujnyq6PRfolbWBbaUurzDa4",
 // });
 
-cloudinary.config({
-    cloud_name: 'dixocysmv',
-    api_key: '457739877278414',
-    api_secret: 'xfj1wkkXzAO9ig9q2toLH3FF0Bw'
-});
+// cloudinary.config({
+//     cloud_name: 'dixocysmv',
+//     api_key: '457739877278414',
+//     api_secret: 'xfj1wkkXzAO9ig9q2toLH3FF0Bw'
+// });
 
 // make routes
 app.use("/user", users);
@@ -54,8 +54,6 @@ app.use("/event", events);
 app.use("/category", categorys);
 app.use("/comment", comments);
 app.use("/bookmark", bookmarks);
-// app.use('/image/avatar', express.static(__dirname + '/public' + '/images' + '/avatar'))
-// app.use('/image/event', express.static(__dirname + '/public' + '/images' + '/event'))
 
 app.use(errorHandler);
 
