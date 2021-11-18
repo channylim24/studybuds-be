@@ -22,7 +22,7 @@ exports.eventValidator = async (req, res, next) => {
             errors.push('id_category must be a number');
         }
 
-        if (validator.isEmpty(title)) {
+        if (validator.isEmpty(title, { ignore_whitespace: false })) {
             errors.push('title must be filled');
         }
 
@@ -30,27 +30,27 @@ exports.eventValidator = async (req, res, next) => {
             errors.push('image must be filled');
         }
 
-        if (validator.isEmpty(dateStart)) {
+        if (validator.isEmpty(dateStart, { ignore_whitespace: false })) {
             errors.push('date start must be filled, format date: YYYY-MM-DD<space>hh:mm')
         }
 
-        if (validator.isEmpty(dateEnd)) {
+        if (validator.isEmpty(dateEnd, { ignore_whitespace: false })) {
             errors.push('date end must be filled, format date: YYYY-MM-DD<space>hh:mm')
         }
 
-        if (validator.isEmpty(detail)) {
+        if (validator.isEmpty(detail, { ignore_whitespace: false })) {
             errors.push('detail must be filled');
         }
 
-        if (validator.isEmpty(organizer)) {
+        if (validator.isEmpty(organizer, { ignore_whitespace: false })) {
             errors.push('organizer must be filled');
         }
 
-        if (validator.isEmpty(link)) {
+        if (validator.isEmpty(link, { ignore_whitespace: false })) {
             errors.push('link must be filled');
         }
 
-        if (validator.isEmpty(nameSpeaker)) {
+        if (validator.isEmpty(nameSpeaker, { ignore_whitespace: false })) {
             errors.push('name speaker must be filled');
         }
 
@@ -81,7 +81,7 @@ exports.eventValidator = async (req, res, next) => {
 
             await move(`./public/images/events/${file.name}`);
 
-            req.body.imageEvent = file.name;
+            req.body.imageEvent = `https://api-see-event-teamb.herokuapp.com/images/events/${file.name}`;
         }
 
         next();

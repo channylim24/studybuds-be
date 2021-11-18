@@ -7,6 +7,16 @@ exports.createUserValidator = async (req, res, next) => {
   try {
     const errors = [];
 
+    const { firstName } = req.body;
+
+    if (validator.isEmpty(firstName, { ignore_whitespace: false })) {
+      errors.push('first name must be filled');
+    }
+
+    if (!validator.isLength(firstName, { min: 5 })) {
+      errors.push('first name min 5 characters');
+    }
+
     if (errors.length > 0) {
       return res.status(400).json({ errors: errors });
     }
@@ -34,10 +44,11 @@ exports.createUserValidator = async (req, res, next) => {
 
       await move(`./public/images/avatars/${file.name}`);
 
-      req.body.avatar = file.name;
-    } else {
-      req.body.avatar = null;
+      req.body.avatar = `https://api-see-event-teamb.herokuapp.com/images/avatars/${file.name}`;
     }
+    // else {
+    //   req.body.avatar = null;
+    // }
 
     next();
   } catch (error) {
