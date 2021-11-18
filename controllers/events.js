@@ -97,7 +97,7 @@ class Events {
 
             const result = page && limit ? getEvents.slice(startIndex, endIndex) : getEvents
 
-            res.status(200).json({ status: 200, success: true, 'total data': getEvents.length, message: 'Success Retrieve All Event', data: result })
+            res.status(200).json({ status: 200, success: true, 'totalData': getEvents.length, message: 'Success Retrieve All Event', data: result })
 
         } catch (error) {
             // console.log(error);
