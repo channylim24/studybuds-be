@@ -34,7 +34,7 @@ exports.createUserValidator = async (req, res, next) => {
 
       await move(`./public/images/avatar/${file.name}`);
 
-      req.body.avatar = file.name;
+      req.body.avatar = `https://api-see-event-teamb.herokuapp.com/images/avatars/${file.name}`;
     } else {
       req.body.avatar = null;
     }

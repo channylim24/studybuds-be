@@ -81,7 +81,7 @@ exports.eventValidator = async (req, res, next) => {
 
             await move(`./public/images/event/${file.name}`);
 
-            req.body.imageEvent = file.name;
+            req.body.imageEvent = `https://api-see-event-teamb.herokuapp.com/images/events/${file.name}`;
         }
 
         next();
