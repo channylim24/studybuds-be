@@ -29,12 +29,12 @@ exports.eventValidator = async (req, res, next) => {
             errors.push('image must be filled');
         }
 
-        if (dateStart === null) {
-            errors.push('date start must be filled')
+        if (validator.isEmpty(dateStart)) {
+            errors.push('date start must be filled, format date: YYYY-MM-DD hh:mm')
         }
 
-        if (dateEnd === null) {
-            errors.push('date end must be filled')
+        if (validator.isEmpty(dateEnd)) {
+            errors.push('date start must be filled, format date: YYYY-MM-DD hh:mm')
         }
 
         if (validator.isEmpty(detail)) {
