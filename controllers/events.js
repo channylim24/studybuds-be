@@ -15,10 +15,10 @@ class Events {
                 search = '',
             } = req.query;
 
-            let cat = req.query.cat
+            let cat = req.query.cat;
             let date = req.query.date;
-            let startDate = req.query.startDate
-            let endDate = req.query.endDate
+            let startDate = req.query.startDate;
+            let endDate = req.query.endDate;
             const order = req.query.order ? req.query.order : 'DESC';
 
             // moment js for filtering by date
@@ -90,12 +90,12 @@ class Events {
                 limit = 8
             }
 
-            const startIndex = (page - 1) * limit
-            const endIndex = page * limit
+            const startIndex = (page - 1) * limit;
+            const endIndex = page * limit;
 
             const result = page && limit ? getEvents.slice(startIndex, endIndex) : getEvents
 
-            res.status(200).json({ status: 200, success: true, 'totalData': getEvents.length, message: 'Success Retrieve All Event', data: result })
+            res.status(200).json({ status: 200, success: true, 'totalData': getEvents.length, message: 'Success Retrieve All Event', data: result });
 
         } catch (error) {
             // console.log(error);
