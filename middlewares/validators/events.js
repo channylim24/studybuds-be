@@ -34,7 +34,7 @@ exports.eventValidator = async (req, res, next) => {
         }
 
         if (validator.isEmpty(dateEnd)) {
-            errors.push('date start must be filled, format date: YYYY-MM-DD hh:mm')
+            errors.push('date end must be filled, format date: YYYY-MM-DD hh:mm')
         }
 
         if (validator.isEmpty(detail)) {
