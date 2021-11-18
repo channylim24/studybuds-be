@@ -35,6 +35,44 @@ class Bookmark {
       next(error);
     }
   }
+  async getMyBookmark(req, res, next) {
+    try {
+      const token = req.headers.authorization.replace('Bearer ', '');
+      const currentUser = await user.findOne({
+        where: { token }
+      });
+      let data = await bookmark.findAll({
+        // find all data in table bookmark
+        where: { id_user: currentUser.id },
+        attributes: {
+          exclude: [
+            "createdAt",
+            "updatedAt",
+            "deletedAt",
+          ],
+        },
+        include: [
+          {
+            model: event,
+            attributes: ['title'],
+          },
+          {
+            model: user,
+            attributes: ['email']
+          },
+        ],
+      });
+
+      // If there is nothing here
+      if ((data.length === 0)) {
+        return res.status(404).json({ errors: ["Bookmark not found"] });
+      }
+      // If success
+      res.status(200).json({ data });
+    } catch (error) {
+      next(error);
+    }
+  }
   async getDetailBookmark(req, res, next) {
     try {
       const token = req.headers.authorization.replace('Bearer ', '');

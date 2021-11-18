@@ -78,7 +78,110 @@ class Events {
             query += `order by "id" ${order}`
             let getEvents = await sequelize.query(query)
             getEvents = getEvents[0]
+            if (getEvents.length === 0) {
+                return res.status(404).json({ status: 404, success: false, message: 'Event not found - retrieve all event' });
+            }
 
+            let page = +req.query.page;
+            let limit = +req.query.limit;
+            if ((getEvents.length > 8) && (!limit && !page)) {
+                page = 1
+                limit = 8
+            }
+
+            const startIndex = (page - 1) * limit;
+            const endIndex = page * limit;
+
+            const result = page && limit ? getEvents.slice(startIndex, endIndex) : getEvents
+
+            res.status(200).json({ status: 200, success: true, 'totalData': getEvents.length, message: 'Success Retrieve All Event', data: result });
+
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Retrieve All Event', message: error });
+        }
+    }
+
+    static async retrieveMyEvent(req, res, next) {
+        try {
+            const token = req.headers.authorization.replace('Bearer ', '');
+            const currentUser = await user.findOne({
+                where: { token }
+            });
+
+            const {
+                isthistoday,
+                isthistomorrow,
+                isthisweek,
+                isthismonth,
+                isthisyear,
+                comingsoon,
+                search = '',
+            } = req.query;
+
+            let cat = req.query.cat;
+            let date = req.query.date;
+            let startDate = req.query.startDate;
+            let endDate = req.query.endDate;
+            const order = req.query.order ? req.query.order : 'DESC';
+
+            // moment js for filtering by date
+            if (Number(isthistoday)) {
+                startDate = moment().startOf('day').format('YYYY-MM-DD');
+                endDate = moment().endOf('day').format('YYYY-MM-DD');
+            } else if (Number(isthistomorrow)) {
+                let DD = new Date().getDate();
+                startDate = moment().startOf('day').format(`YYYY-MM-${DD + 1}`);
+                endDate = moment().endOf('day').format(`YYYY-MM-${DD + 1}`);
+            } else if (Number(isthisweek)) {
+                startDate = moment().startOf('week').format('YYYY-MM-DD');
+                endDate = moment().endOf('week').format('YYYY-MM-DD');
+            } else if (Number(isthismonth)) {
+                startDate = moment().startOf('month').format('YYYY-MM-DD');
+                endDate = moment().endOf('month').format('YYYY-MM-DD');
+            } else if (Number(isthisyear)) {
+                startDate = moment().startOf('year').format('YYYY-MM-DD');
+                endDate = moment().endOf('year').format('YYYY-MM-DD');
+            } else if (Number(comingsoon)) {
+                let DD = new Date().getDate();
+                startDate = moment().startOf('week').format(`YYYY-MM-${DD + 7}`);
+                endDate = moment().endDate('week').format(`YYYY-MM-${DD + 7}`);
+            }
+
+            // manual query database
+            let query = `select e.id , e."imageEvent" , e.title , c."name" as category ,`
+            query += `e.detail , e.organizer , e.link , e."nameSpeaker" , e."dateStart" , e."dateEnd" , e."deletedAt" `
+            query += `from events e `
+            query += `inner join users u on e.id_user = u.id `
+            query += `inner join categories c on e.id_category = c.id `
+            query += `where e."deletedAt" isnull and e.id_user = ${currentUser.id}`
+
+            // filtering search by title
+            if (search) {
+                query += ` and "title" ILIKE '%${search}%' `
+            }
+
+            // calculate date range
+            if (date) {
+                date = date.split('-')
+                query += ` and ("dateStart" < '${date[0]}-${date[1]}-${date[2]} 23:59:59' and "dateStart" > '${date[0]}-${date[1]}-${date[2]} 00:00:00')`
+            } else if (startDate && endDate) {
+                startDate = startDate.split('-')
+                endDate = endDate.split('-')
+                query += ` and ("dateStart" < '${endDate[0]}-${endDate[1]}-${endDate[2]} 23:59:59' and "dateStart" > '${startDate[0]}-${startDate[1]}-${startDate[2]} 00:00:00')`
+            }
+
+            // filtering by date, date range & category
+            if (search && (date || (startDate && endDate)) && cat) {
+                query += ` and "id_category" = ${cat} `
+            } else if (cat) {
+                query += ` and "id_category" = ${cat} `
+            }
+
+            // filtering order
+            query += `order by "id" ${order}`
+            let getEvents = await sequelize.query(query)
+            getEvents = getEvents[0]
             if (getEvents.length === 0) {
                 return res.status(404).json({ status: 404, success: false, message: 'Event not found - retrieve all event' });
             }
@@ -202,11 +305,6 @@ class Events {
             if (currentUser == null) {
                 return res.status(404).json({ errors: ['No edit access to this event!'] });
             }
-            const updatedEvent = await event.update(req.body, {
-                where: {
-                    id: req.params.id,
-                },
-            });
 
             await event.update(req.body, {
                 where: {

@@ -23,13 +23,13 @@ const router = express.Router();
 router
   .route("/")
   .get(getAllCategory)
-  .post(isLogged, createOrUpdateCategoryValidator, createCategory);
+// .post(isLogged, createOrUpdateCategoryValidator, createCategory);
 
 router
   .route("/:id")
   .get(isLogged, getOneCategory)
-  .put(isLogged, createOrUpdateCategoryValidator, updateCategory)
-  .delete(isLogged, deleteCategory);
+// .put(isLogged, createOrUpdateCategoryValidator, updateCategory)
+// .delete(isLogged, deleteCategory);
 
 // Exports
 module.exports = router;

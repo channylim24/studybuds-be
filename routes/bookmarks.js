@@ -13,11 +13,13 @@ const {
   getDetailBookmark,
   deleteBookmark,
   updateBookmark,
+  getMyBookmark
 } = require("../controllers/bookmarks");
 
 const router = express.Router();
 
 // it will find route that has / first, after that it will find is it GET or POST
+router.get('/MyBookmark', getMyBookmark)
 router
   .route("/")
   .get(getAllBookmark)

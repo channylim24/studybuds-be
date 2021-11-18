@@ -1,5 +1,6 @@
 const { user, sequelize } = require('../models')
 const { decrypt, encrypt, createToken, verifyToken } = require('../utils/index')
+const isEmpty = str => !str.trim().length;
 
 class User {
     // creating user
@@ -17,6 +18,8 @@ class User {
             if (data == null) {
                 let { firstName, lastName, email, password, avatar } = req.body;
                 if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) return res.status(400).json(["Masukkan email dengan benar!"]);
+                if (isEmpty(firstName)) return res.status(400).json(["Your name are not allowed to be empty"])
+                if (firstName.length < 5) return res.status(400).json(["Nama pertama minimal 5 huruf!"]);
                 if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*\.\,])(?=.{10,20})/.test(password)) return res.status(400).json([`Mohon diisi dengan panjang kata sandi 10-20 karakter, terdiri dari kombinasi huruf besar, huruf kecil, angka, dan special karakter`]);
                 password = encrypt(password)
                 const newData = await user.create({
@@ -92,6 +95,8 @@ class User {
             else {
                 let { firstName, lastName, email, password, avatar } = req.body;
                 if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) return res.status(400).json(["Masukkan email dengan benar!"]);
+                if (isEmpty(firstName)) return res.status(400).json(["Your name are not allowed to be empty"])
+                if (firstName.length < 5) return res.status(400).json(["Nama pertama minimal 5 huruf!"]);
                 if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*\.\,])(?=.{10,20})/.test(password)) return res.status(400).json([`Masukkan password dengan benar!`]);
                 password = encrypt(password)
                 await user.update(
