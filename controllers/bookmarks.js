@@ -64,7 +64,7 @@ class Bookmark {
               },
               {
                 model: user,
-                attributes: ['firstName', 'lastName']
+                attributes: ['firstName', 'lastName', 'email', 'avatar']
               }
             ]
           },
@@ -148,7 +148,8 @@ class Bookmark {
         },
         attributes: {
           exclude: [
-            "createdAt",
+            'id_user',
+            'id_event',
             "updatedAt",
             "deletedAt",
           ],
@@ -156,11 +157,11 @@ class Bookmark {
         include: [
           {
             model: event,
-            attributes: ['title'],
+            attributes: ['id', 'title'],
           },
           {
             model: user,
-            attributes: ['email'],
+            attributes: ['id', 'firstName', 'lastName', 'email'],
           },
         ],
       });

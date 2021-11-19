@@ -77,7 +77,7 @@ class Events {
 
             // filtering order
             if (orderbydate) {
-                query += `order by e."createdAt" ${orderbydate}`
+                query += `order by e."dateStart" ${orderbydate}`
             } else if (orderbytitle) {
                 query += `order by e.title ${orderbytitle}`
             } else {

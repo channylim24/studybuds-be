@@ -14,11 +14,11 @@ class Comment {
         include: [
           {
             model: event,
-            attributes: ['dateStart']
+            attributes: ['id', 'dateStart']
           },
           {
             model: user,
-            attributes: ['avatar', 'firstName', 'lastName']
+            attributes: ['id', 'avatar', 'firstName', 'lastName']
           },
         ],
         order: [['id', 'desc']]
