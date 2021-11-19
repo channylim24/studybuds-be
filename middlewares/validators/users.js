@@ -13,10 +13,6 @@ exports.createUserValidator = async (req, res, next) => {
       errors.push('first name must be filled');
     }
 
-    if (!validator.isLength(firstName, { min: 5 })) {
-      errors.push('first name min 5 characters');
-    }
-
     if (errors.length > 0) {
       return res.status(400).json({ errors: errors });
     }

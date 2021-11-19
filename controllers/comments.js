@@ -45,7 +45,7 @@ class Comment {
           },
           {
             model: user,
-            attributes: { exclude: ['password'] }
+            attributes: { exclude: ['password', 'token'] }
           },
         ],
       });
@@ -85,7 +85,7 @@ class Comment {
         where: {
           id: newData.id,
         },
-        attributes: { exclude: ['createdAt', 'updatedAt'] },
+        attributes: { exclude: ['updatedAt'] },
         include: [
           {
             model: event,
@@ -139,7 +139,7 @@ class Comment {
           id: req.params.id,
         },
         attributes: {
-          exclude: ["id_event", "id_user", "updatedAt", "deletedAt"],
+          exclude: ["updatedAt", "deletedAt"],
         },
         include: [
           {
@@ -147,7 +147,7 @@ class Comment {
           },
           {
             model: user,
-            attributes: { exclude: ['password'] }
+            attributes: { exclude: ['password', 'token'] }
           },
         ],
       });

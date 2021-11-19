@@ -49,6 +49,11 @@ app.use("/category", categorys);
 app.use("/comment", comments);
 app.use("/bookmark", bookmarks);
 
+app.all("*", function (req, res) {
+    res.status(404)
+    res.end(JSON.stringify({ message: "Endpoint does not exist" }))
+});
+
 app.use(errorHandler);
 
 // run the server
