@@ -238,6 +238,15 @@ class Events {
                 return res.status(404).json({ status: 404, success: false, message: 'Event not found - retrieve detail event' });
             }
 
+            const currentTime = getDetailEvent.createdAt
+            const formatDate = new Date(currentTime).toLocaleString()
+            const parseTime = moment(formatDate, 'MM/DD/YYYY, h:mm:ss A').fromNow()
+
+            let arrLength = getDetailEvent.dataValues.comments
+            for (let i = 0; i < arrLength.length; i++) {
+                arrLength[i].dataValues.time = parseTime
+            }
+
             res.status(200).json({ status: 200, success: true, message: 'Success Retrieve Detail Event', data: getDetailEvent });
 
         } catch (error) {

@@ -31,7 +31,7 @@ class User {
                     },
                     attributes: { exclude: ["avatar", "updatedAt", "deletedAt", "password", "token"] }
                 })
-                res.status(201).json({ resData });
+                res.status(201).json({ message: 'Congrats! You have successfully created an account.', data: resData });
             } else {
                 // return jika email sudah terdaftar
                 errorType = 1;
