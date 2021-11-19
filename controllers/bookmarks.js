@@ -27,10 +27,10 @@ class Bookmark {
 
       // If there is nothing here
       if ((data.length === 0)) {
-        return res.status(404).json({ errors: ["Bookmark not found"] });
+        return res.status(404).json({ errors: "Bookmark not found" });
       }
       // If success
-      res.status(200).json({ data });
+      res.status(200).json({ status: 200, success: true, data });
     } catch (error) {
       next(error);
     }
@@ -73,10 +73,10 @@ class Bookmark {
 
       // If there is nothing here
       if ((data.length === 0)) {
-        return res.status(404).json({ message: ["You haven't saved any events yet"] });
+        return res.status(404).json({ message: "You haven't saved any events yet" });
       }
       // If success
-      res.status(200).json({ data });
+      res.status(200).json({ status: 200, success: true, message: 'success get my bookmark', data });
     } catch (error) {
       next(error);
     }
@@ -96,11 +96,11 @@ class Bookmark {
       }
 
       if (currentUser.id != currentBookmark.id_user) {
-        return res.status(404).json({ errors: ['No access to this bookmark!'] });
+        return res.status(404).json({ errors: 'No access to this bookmark!' });
       }
 
       if (currentUser == null) {
-        return res.status(404).json({ errors: ['No access to this bookmark!'] });
+        return res.status(404).json({ errors: 'No access to this bookmark!' });
       }
       let data = await bookmark.findOne({
         // find all data of bookmark table
@@ -125,7 +125,7 @@ class Bookmark {
       });
 
       // if success
-      res.status(200).json({ data });
+      res.status(200).json({ status: 200, success: true, message: 'success get detail bookmark', data });
     } catch (error) {
       next(error);
     }
@@ -165,7 +165,7 @@ class Bookmark {
           },
         ],
       });
-      res.status(201).json({ data });
+      res.status(201).json({ status: 200, success: true, message: 'success create bookmark', data });
     } catch (error) {
       next(error);
     }
@@ -191,11 +191,11 @@ class Bookmark {
       }
 
       if (currentUser.id != currentBookmark.id_user) {
-        return res.status(404).json({ errors: ['No update access to this bookmark!'] });
+        return res.status(404).json({ errors: 'No update access to this bookmark!' });
       }
 
       if (currentUser == null) {
-        return res.status(404).json({ errors: ['No update access to this bookmark!'] });
+        return res.status(404).json({ errors: 'No update access to this bookmark!' });
       }
       // bookmark table update
       await bookmark.update(req.body, {
@@ -229,7 +229,7 @@ class Bookmark {
       });
 
       // if success
-      res.status(201).json({ data });
+      res.status(201).json({ status: 201, success: true, message: 'success update bookmark', data });
     } catch (error) {
       next(error);
     }
@@ -255,17 +255,17 @@ class Bookmark {
       }
 
       if (currentUser.id != currentBookmark.id_user) {
-        return res.status(404).json({ errors: ['No delete access to this bookmark!'] });
+        return res.status(404).json({ errors: 'No delete access to this bookmark!' });
       }
 
       if (currentUser == null) {
-        return res.status(404).json({ errors: ['No delete access to this bookmark!'] });
+        return res.status(404).json({ errors: 'No delete access to this bookmark!' });
       }
       // delete data
       await bookmark.destroy({ where: { id: req.params.id } });
 
       // if success
-      res.status(200).json({ message: "Success delete bookmark" });
+      res.status(200).json({ status: 200, success: true, message: "Success delete bookmark" });
     } catch (error) {
       next(error);
     }

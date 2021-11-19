@@ -81,7 +81,7 @@ class Events {
             } else if (orderbytitle) {
                 query += `order by e.title ${orderbytitle}`
             } else {
-                query += `order by e."createdAt" ASC`
+                query += `order by e.id ASC`
             }
 
             let getEvents = await sequelize.query(query)
@@ -105,7 +105,6 @@ class Events {
             res.status(200).json({ status: 200, success: true, 'totalData': getEvents.length, message: 'Success Retrieve All Event', data: result });
 
         } catch (error) {
-            console.log(error);
             res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Retrieve All Event', message: error });
         }
     }
@@ -131,7 +130,8 @@ class Events {
             let date = req.query.date;
             let startDate = req.query.startDate;
             let endDate = req.query.endDate;
-            const orderbydate = req.query.orderbydate ? req.query.orderbydate : 'DESC';
+            let orderbydate = req.query.orderbydate;
+            let orderbytitle = req.query.orderbytitle;
 
             // moment js for filtering by date
             if (Number(isthistoday)) {
@@ -186,8 +186,16 @@ class Events {
                 query += ` and "id_category" = ${cat} `
             }
 
+
             // filtering order
-            query += `order by "id" ${orderbydate}`
+            if (orderbydate) {
+                query += `order by e."dateStart" ${orderbydate}`
+            } else if (orderbytitle) {
+                query += `order by e.title ${orderbytitle}`
+            } else {
+                query += `order by e.id ASC`
+            }
+
             let getEvents = await sequelize.query(query)
             getEvents = getEvents[0]
             if (getEvents.length === 0) {
@@ -209,7 +217,6 @@ class Events {
             res.status(200).json({ status: 200, success: true, 'totalData': getEvents.length, message: 'Success Retrieve All Event', data: result });
 
         } catch (error) {
-            // console.log(error);
             res.status(500).json({ status: 500, success: false, message: 'Internal Server Error Retrieve All Event', message: error });
         }
     }
@@ -250,7 +257,6 @@ class Events {
             res.status(200).json({ status: 200, success: true, message: 'Success Retrieve Detail Event', data: getDetailEvent });
 
         } catch (error) {
-            // console.log('error');
             res.status(500).json({ status: 500, success: false, errors: ['Internal Server Error Retrieve Detail Event'], message: error });
         }
     }
@@ -292,8 +298,7 @@ class Events {
             res.status(201).json({ status: 201, success: true, message: 'Success create event', data: getEvent })
 
         } catch (error) {
-            // console.log(error);
-            res.status(500).json({ status: 500, success: false, errors: ['Internal Server Error Create Event'], message: error });
+            res.status(500).json({ status: 500, success: false, errors: 'Internal Server Error Create Event', message: error });
         }
     }
 
@@ -316,11 +321,11 @@ class Events {
             }
 
             if (currentUser.id != currentEvent.id_user) {
-                return res.status(404).json({ errors: ['No edit access to this event!'] });
+                return res.status(404).json({ errors: 'No edit access to this event!' });
             }
 
             if (currentUser == null) {
-                return res.status(404).json({ errors: ['No edit access to this event!'] });
+                return res.status(404).json({ errors: 'No edit access to this event!' });
             }
 
             await event.update(req.body, {
@@ -349,7 +354,7 @@ class Events {
             res.status(201).json({ status: 201, success: true, message: 'Success update event', data: getEvent });
 
         } catch (error) {
-            res.status(500).json({ status: 500, success: false, errors: ['Internal Server Error Update Event'], message: error });
+            res.status(500).json({ status: 500, success: false, errors: 'Internal Server Error Update Event', message: error });
         }
     }
 
@@ -372,18 +377,18 @@ class Events {
             }
 
             if (currentUser.id != currentEvent.id_user) {
-                return res.status(404).json({ errors: ['No edit access to this event!'] });
+                return res.status(404).json({ errors: 'No edit access to this event!' });
             }
 
             if (currentUser == null) {
-                return res.status(404).json({ errors: ['No edit access to this event!'] });
+                return res.status(404).json({ errors: 'No edit access to this event!' });
             }
             await event.destroy({ where: { id: req.params.id } });
 
             res.status(200).json({ status: 200, success: true, message: 'Delete Successful' });
 
         } catch (error) {
-            res.status(500).json({ status: 500, success: false, errors: ['Internal Server Error Delete Event'], message: error });
+            res.status(500).json({ status: 500, success: false, errors: 'Internal Server Error Delete Event', message: error });
         }
     }
 

@@ -32,11 +32,11 @@ class Comment {
 
       // if there is no data in comment
       if (data.length === 0) {
-        return res.status(404).json({ errors: ["Comment not found"] });
+        return res.status(404).json({ errors: "Comment not found" });
       }
 
       // if success
-      res.status(200).json({ data });
+      res.status(200).json({ status: 200, success: true, message: 'success get all comment', data });
     } catch (error) {
       next(error);
     }
@@ -63,11 +63,11 @@ class Comment {
 
       // if there is no data
       if (!data) {
-        return res.status(404).json({ errors: ["Comment not found"] });
+        return res.status(404).json({ errors: "Comment not found" });
       }
 
       // if success
-      res.status(200).json({ data });
+      res.status(200).json({ status: 200, success: true, message: 'success get detail comment', data });
     } catch (error) {
       next(error);
     }
@@ -118,7 +118,6 @@ class Comment {
 
       res.status(201).json({ status: 200, success: true, message: 'Congrats! Your comment was successfully added.', data });
     } catch (error) {
-      // console.log(error, '<<<<<<<<<<<<<<<<<<<< ERROR');
       next(error);
     }
   }
@@ -138,7 +137,7 @@ class Comment {
       }
 
       if (currentUser.id != currentComment.id_user) {
-        return res.status(404).json({ errors: ['No access to this comment!'] });
+        return res.status(404).json({ errors: 'No access to this comment!' });
       }
 
       if (currentUser == null) {
@@ -170,7 +169,7 @@ class Comment {
         ],
       });
       // if success
-      res.status(201).json({ data });
+      res.status(201).json({ status: 201, success: true, message: 'success update comment', data });
     } catch (error) {
       next(error);
     }
@@ -191,17 +190,17 @@ class Comment {
       }
 
       if (currentUser.id != currentComment.id_user) {
-        return res.status(404).json({ errors: ['No access to delete this comment!'] });
+        return res.status(404).json({ errors: 'No access to delete this comment!' });
       }
 
       if (currentUser == null) {
-        return res.status(404).json({ errors: ['No access to delete this comment!'] });
+        return res.status(404).json({ errors: 'No access to delete this comment!' });
       }
       // delete data
       await comment.destroy({ where: { id: req.params.id } });
 
       // if success
-      res.status(200).json({ message: "Success delete comment" });
+      res.status(200).json({ status: 200, success: true, message: "Success delete comment" });
     } catch (error) {
       next(error);
     }

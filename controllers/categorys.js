@@ -21,9 +21,9 @@ class Categorys {
 
       //if there is data in tabel
 
-      res.status(200).json({ data });
+      res.status(200).json({ status: 200, success: true, message: 'sucess get all category', data });
     } catch (error) {
-      res.status(500).json({ errors: ["Internal Server Error Get All Category"], message: error });
+      res.status(500).json({ errors: "Internal Server Error Get All Category", message: error });
     }
   }
 
@@ -47,10 +47,10 @@ class Categorys {
 
       // If found the data
 
-      res.status(200).json({ data });
+      res.status(200).json({ status: 200, success: true, message: 'success get one category', data });
     } catch (error) {
       // if error
-      res.status(500).json({ errors: ["Internal Server Error Get One Category"], message: error });
+      res.status(500).json({ errors: "Internal Server Error Get One Category", message: error });
     }
   }
   async createCategory(req, res, next) {
@@ -63,12 +63,12 @@ class Categorys {
       });
 
       // Send data of inserted data
-      res.status(201).json({ data });
+      res.status(201).json({ status: 201, success: true, message: 'success create category', data });
       // } else {
       //   return next({ message: " id user not correct", statusCode: 404 });
       // }
     } catch (error) {
-      res.status(500).json({ errors: ["Internal Server Error Create Event"], message: error });
+      res.status(500).json({ errors: "Internal Server Error Create Event", message: error });
     }
   }
   async updateCategory(req, res, next) {
@@ -80,7 +80,7 @@ class Categorys {
 
       // If no data updated
       if (updateData[0] === 0) {
-        return res.status(404).json({ errors: ["Category not found"] });
+        return res.status(404).json({ errors: "Category not found" });
       }
 
       // Find the updated data of task
@@ -93,9 +93,9 @@ class Categorys {
 
       // Send data of inserted data
 
-      res.status(201).json({ data });
+      res.status(201).json({ status: 201, success: true, message: 'success update category', data });
     } catch (error) {
-      res.status(500).json({ errors: ["Internal Server Error Update Category"], message: error });
+      res.status(500).json({ errors: "Internal Server Error Update Category", message: error });
     }
   }
   async deleteCategory(req, res, next) {
@@ -107,13 +107,13 @@ class Categorys {
 
       // If data deleted is null
       if (!data) {
-        return res.status(404).json({ errors: ["Category not found"] });
+        return res.status(404).json({ errors: "Category not found" });
       }
 
       // If success
-      res.status(200).json({ message: "Success delete Category" });
+      res.status(200).json({ status: 200, success: true, message: "Success delete Category" });
     } catch (error) {
-      res.status(500).json({ errors: ["Internal Server Error Delete Category"], message: error });
+      res.status(500).json({ errors: "Internal Server Error Delete Category", message: error });
     }
   }
 }

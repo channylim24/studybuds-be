@@ -17,6 +17,6 @@ exports.createOrUpdateCommentBookmark = async (req, res, next) => {
 
     next();
   } catch (error) {
-    res.status(500).json({ errors: ["Internal Server Error"] });
+    res.status(500).json({ status: 500, errors: "Internal Server Error validating create update comment bookmark", data: error });
   }
 };

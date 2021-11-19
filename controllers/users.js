@@ -17,10 +17,10 @@ class User {
             })
             if (data == null) {
                 let { firstName, lastName, email, password, avatar } = req.body;
-                if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) return res.status(400).json(["Masukkan email dengan benar!"]);
-                if (isEmpty(firstName)) return res.status(400).json(["Your name are not allowed to be empty"])
-                if (firstName.length < 5) return res.status(400).json(["Nama pertama minimal 5 huruf!"]);
-                if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*\.\,])(?=.{10,20})/.test(password)) return res.status(400).json([`Mohon diisi dengan panjang kata sandi 10-20 karakter, terdiri dari kombinasi huruf besar, huruf kecil, angka, dan special karakter`]);
+                if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) return res.status(400).json({ message: "Masukkan email dengan benar!" });
+                if (isEmpty(firstName)) return res.status(400).json({ message: "Your name are not allowed to be empty" })
+                if (firstName.length < 5) return res.status(400).json({ message: "Nama pertama minimal 5 huruf!" });
+                if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*\.\,])(?=.{10,20})/.test(password)) return res.status(400).json({ message: `Mohon diisi dengan panjang kata sandi 10-20 karakter, terdiri dari kombinasi huruf besar, huruf kecil, angka, dan special karakter` });
                 password = encrypt(password)
                 const newData = await user.create({
                     firstName, lastName, password, email, avatar,
@@ -35,10 +35,10 @@ class User {
             } else {
                 // return jika email sudah terdaftar
                 errorType = 1;
-                res.status(400).json(["Email ini sudah terdaftar, silahkan cari email lain"]);
+                res.status(400).json({ message: "Email ini sudah terdaftar, silahkan cari email lain" });
             }
         } catch (error) {
-            res.status(500).json({ errors: ["ERROR Creating User"], message: error });
+            res.status(500).json({ errors: "ERROR Creating User", message: error });
         }
     }
     // show all user
@@ -49,12 +49,12 @@ class User {
             })
 
             if (data.length === 0) {
-                return res.status(404).json(['User not found!'])
+                return res.status(404).json({ status: 404, message: 'User not found!' })
             }
 
-            res.status(200).json({ data });
+            res.status(200).json({ status: 200, success: true, message: 'success get all user', data });
         } catch (error) {
-            res.status(500).json({ errors: ['Error getting all USER'], message: error });
+            res.status(500).json({ errors: 'Error getting all USER', message: error });
         }
     }
     // show specific user
@@ -78,12 +78,12 @@ class User {
             });
 
             if (!data) {
-                return res.status(404).json({ errors: ["User not found"] });
+                return res.status(404).json({ errors: "User not found" });
             }
 
-            res.status(200).json({ status: 200, success: true, data });
+            res.status(200).json({ status: 200, success: true, message: 'success get detail user', data });
         } catch (error) {
-            res.status(500).json({ errors: ['Error getting all USER'], message: error });
+            res.status(500).json({ errors: 'Error getting all USER', message: error });
         }
     }
     // updating user
@@ -95,15 +95,15 @@ class User {
             });
 
             if (currentUser === null) {
-                return res.status(404).json({ errors: ['user not found'] });
+                return res.status(404).json({ errors: 'user not found' });
             }
 
             else {
                 let { firstName, lastName, email, password, avatar } = req.body;
-                if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) return res.status(400).json(["Masukkan email dengan benar!"]);
-                if (isEmpty(firstName)) return res.status(400).json(["Your name are not allowed to be empty"])
-                if (firstName.length < 5) return res.status(400).json(["Nama pertama minimal 5 huruf!"]);
-                if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*\.\,])(?=.{10,20})/.test(password)) return res.status(400).json([`Masukkan password dengan benar!`]);
+                if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) return res.status(400).json({ message: "Masukkan email dengan benar!" });
+                if (isEmpty(firstName)) return res.status(400).json({ message: "Your name are not allowed to be empty" })
+                if (firstName.length < 5) return res.status(400).json({ message: "Nama pertama minimal 5 huruf!" });
+                if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*\.\,])(?=.{10,20})/.test(password)) return res.status(400).json({ message: `Masukkan password dengan benar!` });
                 password = encrypt(password)
                 await user.update(
                     { firstName, lastName, email, password, avatar },
@@ -118,9 +118,9 @@ class User {
                 attributes: { exclude: ['password', 'token'] }
             });
 
-            res.status(201).json({ status: 200, success: true, data });
+            res.status(201).json({ status: 200, success: true, message: 'success updating user', data });
         } catch (error) {
-            res.status(500).json({ errors: ['Error updating USER'], message: error });
+            res.status(500).json({ errors: 'Error updating USER', message: error });
         }
     }
     // deleting user
@@ -132,7 +132,7 @@ class User {
             });
 
             if (currentUser == null) {
-                return res.status(404).json({ errors: ['No delete access to this user!'] });
+                return res.status(404).json({ errors: 'No delete access to this user!' });
             }
 
             const data = await user.destroy({
@@ -140,12 +140,12 @@ class User {
             })
 
             if (!data) {
-                return res.status(404).json({ errors: ['User not found!'] });
+                return res.status(404).json({ errors: 'User not found!' });
             }
 
-            res.status(200).json({ messages: ['User account has successfully been deleted!'] });
+            res.status(200).json({ status: 200, messages: 'User account has successfully been deleted!' });
         } catch (error) {
-            res.status(500).json({ errors: ['Error updating USER'], message: error });
+            res.status(500).json({ errors: 'Error updating USER', message: error });
         }
     }
     // =============================================================================================================
@@ -157,12 +157,12 @@ class User {
         });
 
         if (data == null) {
-            return res.status(404).json({ errors: ['Email yang diisi salah'] })
+            return res.status(404).json({ errors: 'Email yang diisi salah' })
         }
         // cek apa password memang dimiliki oleh email yang diinput
         let validPass = decrypt(req.body.password, data.password);
         if (!validPass) {
-            return res.status(404).json({ errors: ['Kata sandi yang dimasukkan salah'] })
+            return res.status(404).json({ errors: 'Kata sandi yang dimasukkan salah' })
         }
 
         const {

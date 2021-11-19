@@ -17,6 +17,6 @@ exports.createOrUpdateCommentValidator = async (req, res, next) => {
 
     next();
   } catch (error) {
-    res.status(500).json({ errors: ["Internal Server Error"], message: error });
+    res.status(500).json({ status: 500, errors: "Internal Server Error validator create update comment", message: error });
   }
 };
