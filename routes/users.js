@@ -20,7 +20,6 @@ router
     .post(createUserValidator, registerUser)
 
 // routes
-
 // router
 // .route('/')
 // .get(isLogged, allUser)
