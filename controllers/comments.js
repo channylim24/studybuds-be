@@ -1,8 +1,11 @@
 const { comment, event, user, sequelize } = require("../models");
+const moment = require('moment')
+
 class Comment {
   // Get all comment
   async getAllComment(req, res, next) {
     try {
+
       let data = await comment.findAll({
         // find all data in table comment
         attributes: {
@@ -15,15 +18,23 @@ class Comment {
           },
           {
             model: user,
-            attributes: ['avatar', 'firstName']
+            attributes: ['avatar', 'firstName', 'lastName']
           },
         ],
         order: [['id', 'desc']]
       });
+
+      // const currentTime = data.createdAt
+      // console.log(currentTime);
+      // const timezone = new Date(currentTime).toLocaleString('en-US', { timeZone: 'asia/bangkok' })
+      // const parseTime = moment(timezone).fromNow()
+      // console.log(parseTime);
+
       // if there is no data in comment
       if (data.length === 0) {
         return res.status(404).json({ errors: ["Comment not found"] });
       }
+
       // if success
       res.status(200).json({ data });
     } catch (error) {
@@ -80,6 +91,11 @@ class Comment {
 
       // create comment
       const newData = await comment.create(req.body);
+
+      const currentTime = newData.createdAt
+      const timezone = new Date(currentTime).toLocaleString('en-US', { timeZone: 'asia/bangkok' })
+      const parseTime = moment(timezone).fromNow()
+
       // find event with join
       const data = await comment.findOne({
         where: {
@@ -98,7 +114,9 @@ class Comment {
         ],
       });
 
-      res.status(201).json({ data });
+      data.dataValues.time = parseTime
+
+      res.status(201).json({ status: 200, success: true, data });
     } catch (error) {
       // console.log(error, '<<<<<<<<<<<<<<<<<<<< ERROR');
       next(error);

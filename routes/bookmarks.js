@@ -19,17 +19,17 @@ const {
 const router = express.Router();
 
 // it will find route that has / first, after that it will find is it GET or POST
-router.get('/MyBookmark', getMyBookmark)
+// router.get('/MyBookmark', getMyBookmark)
 router
   .route("/")
-  .get(getAllBookmark)
+  .get(getMyBookmark)
   .post(isLogged, createOrUpdateCommentBookmark, createBookmark);
 
 //   it will find route that has /:id first, after that it will find is it GET or PUT or DELETE
 router
   .route("/:id")
-  .get(isLogged, getDetailBookmark)
-  .put(isLogged, createOrUpdateCommentBookmark, updateBookmark)
+  // .get(isLogged, getDetailBookmark)
+  // .put(isLogged, createOrUpdateCommentBookmark, updateBookmark)
   .delete(isLogged, deleteBookmark);
 
 module.exports = router;

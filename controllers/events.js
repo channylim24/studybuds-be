@@ -19,7 +19,8 @@ class Events {
             let date = req.query.date;
             let startDate = req.query.startDate;
             let endDate = req.query.endDate;
-            const order = req.query.order ? req.query.order : 'DESC';
+            let orderbydate = req.query.orderbydate;
+            let orderbytitle = req.query.orderbytitle;
 
             // moment js for filtering by date
             if (Number(isthistoday)) {
@@ -45,8 +46,8 @@ class Events {
             }
 
             // manual query database
-            let query = `select e.id , e."imageEvent" , e.title , c."name" as category ,`
-            query += `e.detail , e.organizer , e.link , e."nameSpeaker" , e."dateStart" , e."dateEnd" , e."deletedAt" `
+            let query = `select e.id , u."firstName" , u."lastName" , u.email , e."imageEvent" , e.title , c."name" as category ,`
+            query += `e.detail , e.organizer , e.link , e."nameSpeaker" , e."dateStart" , e."dateEnd", e."createdAt" `
             query += `from events e `
             query += `inner join users u on e.id_user = u.id `
             query += `inner join categories c on e.id_category = c.id `
@@ -75,7 +76,14 @@ class Events {
             }
 
             // filtering order
-            query += `order by "id" ${order}`
+            if (orderbydate) {
+                query += `order by e."createdAt" ${orderbydate}`
+            } else if (orderbytitle) {
+                query += `order by e.title ${orderbytitle}`
+            } else {
+                query += `order by e."createdAt" ASC`
+            }
+
             let getEvents = await sequelize.query(query)
             getEvents = getEvents[0]
             if (getEvents.length === 0) {
@@ -123,7 +131,7 @@ class Events {
             let date = req.query.date;
             let startDate = req.query.startDate;
             let endDate = req.query.endDate;
-            const order = req.query.order ? req.query.order : 'DESC';
+            const orderbydate = req.query.orderbydate ? req.query.orderbydate : 'DESC';
 
             // moment js for filtering by date
             if (Number(isthistoday)) {
@@ -179,7 +187,7 @@ class Events {
             }
 
             // filtering order
-            query += `order by "id" ${order}`
+            query += `order by "id" ${orderbydate}`
             let getEvents = await sequelize.query(query)
             getEvents = getEvents[0]
             if (getEvents.length === 0) {

@@ -1,4 +1,4 @@
-const { bookmark, event, user } = require("../models");
+const { bookmark, event, user, category } = require("../models");
 
 class Bookmark {
   // get all bookmark
@@ -46,6 +46,8 @@ class Bookmark {
         where: { id_user: currentUser.id },
         attributes: {
           exclude: [
+            'id_user',
+            'id_event',
             "createdAt",
             "updatedAt",
             "deletedAt",
@@ -54,18 +56,24 @@ class Bookmark {
         include: [
           {
             model: event,
-            attributes: ['title'],
-          },
-          {
-            model: user,
-            attributes: ['email']
+            attributes: { exclude: ['deletedAt', 'updatedAt', 'id_category', 'id_user'] },
+            include: [
+              {
+                model: category,
+                attributes: ['name']
+              },
+              {
+                model: user,
+                attributes: ['firstName', 'lastName']
+              }
+            ]
           },
         ],
       });
 
       // If there is nothing here
       if ((data.length === 0)) {
-        return res.status(404).json({ errors: ["Bookmark not found"] });
+        return res.status(404).json({ message: ["You haven't saved any events yet"] });
       }
       // If success
       res.status(200).json({ data });
@@ -73,6 +81,7 @@ class Bookmark {
       next(error);
     }
   }
+
   async getDetailBookmark(req, res, next) {
     try {
       const token = req.headers.authorization.replace('Bearer ', '');

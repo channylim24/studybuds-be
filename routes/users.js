@@ -26,7 +26,7 @@ router
 // .get(isLogged, allUser)
 
 router
-    .route('/:id')
+    .route('/')
     .get(isLogged, detailUser)
     .put(isLogged, createUserValidator, updateUser)
     .delete(isLogged, deleteUser)

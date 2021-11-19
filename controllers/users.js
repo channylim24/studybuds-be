@@ -60,9 +60,19 @@ class User {
     // show specific user
     async detailUser(req, res, next) {
         try {
+
+            const token = req.headers.authorization.replace('Bearer ', '');
+            const currentUser = await user.findOne({
+                where: { token }
+            });
+
+            if (currentUser === null) {
+                return res.status(404).json({ errors: 'user not found' })
+            }
+
             const data = await user.findOne({
                 where: {
-                    id: req.params.id
+                    id: currentUser.id
                 },
                 attributes: { exclude: ["createdAt", "updatedAt", "deletedAt", "token", "password"] }
             });
@@ -71,7 +81,7 @@ class User {
                 return res.status(404).json({ errors: ["User not found"] });
             }
 
-            res.status(200).json({ data });
+            res.status(200).json({ status: 200, success: true, data });
         } catch (error) {
             res.status(500).json({ errors: ['Error getting all USER'], message: error });
         }
@@ -84,12 +94,8 @@ class User {
                 where: { token }
             });
 
-            if (currentUser.id != req.params.id) {
-                return res.status(404).json({ errors: ['No edit access to this user!'] });
-            }
-
-            if (currentUser == null) {
-                return res.status(404).json({ errors: ['No edit access to this user!'] });
+            if (currentUser === null) {
+                return res.status(404).json({ errors: ['user not found'] });
             }
 
             else {
@@ -106,21 +112,13 @@ class User {
 
                     });
             }
-            // const updateUser = await user.update({
-            //     where: { 
-            //         id: req.params.id
-            //     },
-            //     attributes: { exclude: ["createdAt", "deletedAt", "password"]}
-            // })
-            // if(updateUser[0] === 0) {
-            //     return res.status(404).json({ errors: ['User not found!'] });
-            // }
+
             const data = await user.findOne({
                 where: { id: currentUser.id },
                 attributes: { exclude: ['password', 'token'] }
             });
 
-            res.status(201).json({ data });
+            res.status(201).json({ status: 200, success: true, data });
         } catch (error) {
             res.status(500).json({ errors: ['Error updating USER'], message: error });
         }
@@ -132,10 +130,6 @@ class User {
             const currentUser = await user.findOne({
                 where: { token }
             });
-
-            if (currentUser.id != req.params.id) {
-                return res.status(404).json({ errors: ['No delete access to this user!'] });
-            }
 
             if (currentUser == null) {
                 return res.status(404).json({ errors: ['No delete access to this user!'] });
