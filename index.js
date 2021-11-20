@@ -32,9 +32,7 @@ app.use(cors(corsOptions));
 // Enable req.body (form-data)
 app.use(fileUpload());
 
-// app.use(express.static(__dirname + '/public' + '/images'))
 app.use(express.static('public'));
-
 
 cloudinary.config({
     cloud_name: 'dixocysmv',
