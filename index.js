@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express"); // import express
 const fileUpload = require("express-fileupload");
 const cors = require("cors");
+const cloudinary = require("cloudinary").v2;
 
 // import routes
 const events = require("./routes/events");
@@ -34,12 +35,12 @@ app.use(fileUpload());
 // app.use(express.static(__dirname + '/public' + '/images'))
 app.use(express.static('public'));
 
-// const cloudinary = require("cloudinary").v2;
-// cloudinary.config({
-//     cloud_name: 'dixocysmv',
-//     api_key: '457739877278414',
-//     api_secret: 'xfj1wkkXzAO9ig9q2toLH3FF0Bw'
-// });
+
+cloudinary.config({
+    cloud_name: 'dixocysmv',
+    api_key: '457739877278414',
+    api_secret: 'xfj1wkkXzAO9ig9q2toLH3FF0Bw'
+});
 
 // make routes
 app.use("/user", users);

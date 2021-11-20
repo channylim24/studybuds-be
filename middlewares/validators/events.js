@@ -2,6 +2,7 @@ const path = require('path');
 const crypto = require('crypto');
 const validator = require('validator');
 const { promisify } = require('util');
+const cloudinary = require("cloudinary").v2;
 
 exports.eventValidator = async (req, res, next) => {
     try {
@@ -81,7 +82,14 @@ exports.eventValidator = async (req, res, next) => {
 
             await move(`./public/images/events/${file.name}`);
 
-            req.body.imageEvent = `https://api-see-event-teamb.herokuapp.com/images/events/${file.name}`;
+            const event = await cloudinary.uploader.upload(`./public/images/events/${file.name}`)
+                .then((result) => {
+                    return result.secure_url
+                });
+
+            req.body.imageEvent = event;
+
+            // req.body.imageEvent = `https://api-see-event-teamb.herokuapp.com/images/events/${file.name}`;
         }
 
         next();

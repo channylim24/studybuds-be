@@ -28,6 +28,7 @@ router
     .route('/')
     .get(isLogged, detailUser)
     .put(isLogged, createUserValidator, updateUser)
+    .patch(isLogged, createUserValidator, updateUser)
     .delete(isLogged, deleteUser)
 
 // export

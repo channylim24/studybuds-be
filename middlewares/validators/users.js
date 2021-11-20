@@ -2,6 +2,7 @@ const path = require('path');
 const crypto = require('crypto');
 const validator = require('validator');
 const { promisify } = require('util');
+const cloudinary = require("cloudinary").v2;
 
 exports.createUserValidator = async (req, res, next) => {
   try {
@@ -40,11 +41,15 @@ exports.createUserValidator = async (req, res, next) => {
 
       await move(`./public/images/avatars/${file.name}`);
 
-      req.body.avatar = `https://api-see-event-teamb.herokuapp.com/images/avatars/${file.name}`;
+      const avatarUser = await cloudinary.uploader.upload(`./public/images/avatars/${file.name}`)
+        .then((result) => {
+          return result.secure_url
+        });
+
+      req.body.avatar = avatarUser;
+
+      // req.body.avatar = `https://api-see-event-teamb.herokuapp.com/images/avatars/${file.name}`;
     }
-    // else {
-    //   req.body.avatar = null;
-    // }
 
     next();
   } catch (error) {
