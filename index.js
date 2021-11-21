@@ -61,7 +61,7 @@ app.all("*", function (req, res) {
     res.end(JSON.stringify({ message: "Endpoint does not exist" }));
 });
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 // run the server
 const port = process.env.PORT || 3000; // define port
