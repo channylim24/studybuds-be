@@ -42,8 +42,6 @@ app.use(fileUpload());
 
 app.use(express.static('public'));
 
-
-
 // make routes
 app.use("/user", users);
 app.use('/login', login);
@@ -51,7 +49,6 @@ app.use("/event", events);
 app.use("/category", categorys);
 app.use("/comment", comments);
 app.use("/bookmark", bookmarks);
-
 
 app.all("*", function (req, res) {
     res.status(404)
