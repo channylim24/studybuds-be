@@ -3,6 +3,7 @@ const express = require("express"); // import express
 const fileUpload = require("express-fileupload");
 const cors = require("cors");
 const cloudinary = require("cloudinary").v2;
+const http = require('http')
 
 // import routes
 const events = require("./routes/events");
@@ -15,6 +16,7 @@ const login = require('./routes/login');
 const errorHandler = require("./middlewares/errorHandler");
 
 const app = express();
+const server = http.createServer(app)
 
 // enable req.body (json and urlencoded)
 app.use(express.json());
@@ -48,6 +50,7 @@ app.use("/category", categorys);
 app.use("/comment", comments);
 app.use("/bookmark", bookmarks);
 
+
 app.all("*", function (req, res) {
     res.status(404)
     res.end(JSON.stringify({ message: "Endpoint does not exist" }))
@@ -57,4 +60,6 @@ app.use(errorHandler);
 
 // run the server
 const port = process.env.PORT || 3000; // define port
-app.listen(port, () => console.log(`Server running on port ${port}...`));
+server.listen(port, () => console.log(`Server running on port ${port}...`));
+
+module.exports = app;

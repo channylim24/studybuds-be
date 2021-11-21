@@ -8,12 +8,6 @@ exports.createUserValidator = async (req, res, next) => {
   try {
     const errors = [];
 
-    const { firstName } = req.body;
-
-    if (validator.isEmpty(firstName, { ignore_whitespace: false })) {
-      errors.push('first name must be filled');
-    }
-
     if (errors.length > 0) {
       return res.status(400).json({ errors: errors });
     }

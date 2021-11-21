@@ -6,14 +6,16 @@ before_script:
   - gem install dpl
 
 stages:
+  - test
   - production
 
-production:
-  type: deploy
-  stage: production
+test:
+  type: test
+  stage: test
   image: ruby:latest
   script:
-    - dpl --provider=heroku --app=$HEROKU_APP --api-key=$HEROKU_API_KEY
+    - npm i
+    - npm run test
   only:
     - development
 
