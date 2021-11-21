@@ -11,11 +11,11 @@ test:
     - postgres:latest
   variables:
     RAILS_ENV: test
-    POSTGRES_DB: ddmkmcna14brm
-    POSTGRES_USER: slkjrxqhitgsde
-    POSTGRES_PASSWORD: 29eade401f9f9cabe3d10f088cec7429849594a9177c8e7bb5ece96731b83ade
+    POSTGRES_DB: d7b3rfmfrl9lg9
+    POSTGRES_USER: xvsfwnejwomjsr
+    POSTGRES_PASSWORD: 02afa491f2cd55d14e119ebd1ebc3a3916b049f7b79d8dcdf955a60cfb33bda6
     POSTGRES_HOST_AUTH_METHOD: trust
-    DATABASE_URL: "postgres://slkjrxqhitgsde:29eade401f9f9cabe3d10f088cec7429849594a9177c8e7bb5ece96731b83ade@ec2-3-208-157-78.compute-1.amazonaws.com:5432/ddmkmcna14brm"
+    DATABASE_URL: "postgres://xvsfwnejwomjsr:02afa491f2cd55d14e119ebd1ebc3a3916b049f7b79d8dcdf955a60cfb33bda6@ec2-44-199-85-33.compute-1.amazonaws.com:5432/d7b3rfmfrl9lg9"
   script:
     - npm i
     - npm run test
