@@ -15,6 +15,7 @@ const login = require('./routes/login');
 const errorHandler = require("./middlewares/errorHandler");
 
 const app = express();
+// test push CI CD
 
 // enable req.body (json and urlencoded)
 app.use(express.json());
