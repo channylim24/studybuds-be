@@ -9,6 +9,7 @@ test:
   stage: test
   image: ruby:latest
   script:
+    - gem install npm
     - npm i
     - npm run test
   only:
