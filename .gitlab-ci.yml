@@ -1,9 +1,10 @@
-image: node:latest
+image: node:16
 
 before_script:
   - apt-get update -qy
   - apt-get install -y ruby-dev
   - gem install dpl
+  - apt-get install npm -y
 
 stages:
   - test
