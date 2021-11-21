@@ -18,6 +18,12 @@ const errorHandler = require("./middlewares/errorHandler");
 const app = express();
 const server = http.createServer(app)
 
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+});
+
 // enable req.body (json and urlencoded)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -36,11 +42,7 @@ app.use(fileUpload());
 
 app.use(express.static('public'));
 
-cloudinary.config({
-    cloud_name: 'dixocysmv',
-    api_key: '457739877278414',
-    api_secret: 'xfj1wkkXzAO9ig9q2toLH3FF0Bw'
-});
+
 
 // make routes
 app.use("/user", users);
