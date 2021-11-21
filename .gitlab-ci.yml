@@ -7,7 +7,8 @@ stages:
 test:
   type: test
   stage: test
-  image: postgres:14-alpine
+  services:
+    - postgres:14-alpine
   script:
     - npm i
     - npm run test
