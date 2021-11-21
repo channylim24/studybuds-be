@@ -13,6 +13,15 @@ production:
   stage: production
   image: ruby:latest
   script:
-    - dpl --provider=heroku --app=$HEROKU_APP --api-key=$HEROKU_API_KEY --api-key=$HEROKU_API_KEY_FALAH
+    - dpl --provider=heroku --app=$HEROKU_APP --api-key=$HEROKU_API_KEY
+  only:
+    - development
+
+production:
+  type: deploy
+  stage: production
+  image: ruby:latest
+  script:
+    - dpl --provider=heroku --app=$HEROKU_APP --api-key=$HEROKU_API_KEY_FALAH
   only:
     - development
