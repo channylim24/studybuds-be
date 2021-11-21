@@ -9,6 +9,13 @@ test:
   stage: test
   services:
     - postgres:latest
+  variables:
+    RAILS_ENV: test
+    POSTGRES_DB: ddmkmcna14brm
+    POSTGRES_USER: slkjrxqhitgsde
+    POSTGRES_PASSWORD: 29eade401f9f9cabe3d10f088cec7429849594a9177c8e7bb5ece96731b83ade
+    POSTGRES_HOST_AUTH_METHOD: trust
+    DATABASE_URL: "postgres://slkjrxqhitgsde:29eade401f9f9cabe3d10f088cec7429849594a9177c8e7bb5ece96731b83ade@ec2-3-208-157-78.compute-1.amazonaws.com:5432/ddmkmcna14brm"
   script:
     - npm i
     - npm run test
