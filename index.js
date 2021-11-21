@@ -19,9 +19,9 @@ const app = express();
 const server = http.createServer(app);
 
 cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.API_KEY,
-    api_secret: process.env.API_SECRET,
+    cloud_name: 'dixocysmv',
+    api_key: '457739877278414',
+    api_secret: 'xfj1wkkXzAO9ig9q2toLH3FF0Bw'
 });
 
 // enable req.body (json and urlencoded)
