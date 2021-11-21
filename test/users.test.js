@@ -20,7 +20,7 @@ describe("Register", () => {
       .send({
         firstName: "Daniel",
         lastName: "Doe",
-        email: "daniel@mail.com",
+        email: "daniel@example.com",
         password: hashedPass,
       })
       .end((err, res) => {
@@ -45,7 +45,7 @@ describe("Register", () => {
       .send({
         firstName: "",
         lastName: "Doe",
-        email: "daniel@mail.com",
+        email: "daniel@example.com",
         password: hashedPass,
       })
       .end((err, res) => {
