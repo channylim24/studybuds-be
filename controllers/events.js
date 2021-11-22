@@ -223,40 +223,81 @@ class Events {
 
     static async retrieveDetailEvent(req, res, next) {
         try {
+
+            const token = req.headers.authorization.replace('Bearer ', '');
+            const currentUser = await user.findOne({
+                where: { token }
+            });
+
+            req.body.id_user = currentUser.id;
+
             let getDetailEvent = await event.findOne({
                 where: { id: req.params.id },
                 attributes: { exclude: ['id_user', 'id_category'] },
                 include: [
                     {
                         model: user,
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt', 'password', 'token'] },
+                        attributes: { exclude: ['updatedAt', 'deletedAt', 'password', 'token'] },
                     },
                     {
                         model: category,
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                        attributes: { exclude: ['updatedAt', 'deletedAt'] },
                     },
                     {
                         model: comment,
+                        attributes: { exclude: ['updatedAt', 'deletedAt'] },
+                        include: [
+                            {
+                                model: user,
+                                attributes: { exclude: ['email', 'password', 'token', 'updatedAt', 'deletedAt'] }
+                            },
+                            {
+                                model: event,
+                                attributes: ['title']
+                            }
+                        ],
                     }
                 ],
             })
+
+            // return console.log(getDetailEvent.comments[0]);
 
             if (!getDetailEvent) {
                 return res.status(404).json({ status: 404, success: false, message: 'Event not found - retrieve detail event' });
             }
 
-            const currentTime = getDetailEvent.createdAt
-            const formatDate = new Date(currentTime).toLocaleString()
-            const parseTime = moment(formatDate, 'MM/DD/YYYY, h:mm:ss A').fromNow()
+            let getComment = await comment.findAll({
+                where: { id_event: getDetailEvent.id }
+            })
 
-            let arrLength = getDetailEvent.dataValues.comments
-            for (let i = 0; i < arrLength.length; i++) {
-                arrLength[i].dataValues.time = parseTime
+            // create time comment
+            let commentTime = [];
+            for (let i = 0; i < getComment.length; i++) {
+                const getCreatedAt = getComment[i].dataValues.createdAt;
+                const formatDate = new Date(getCreatedAt).toLocaleString()
+                const parseTime = moment(formatDate, 'MM/DD/YYYY, h:mm:ss A').fromNow()
+                commentTime.push(parseTime);
             }
 
-            res.status(200).json({ status: 200, success: true, message: 'Success Retrieve Detail Event', data: getDetailEvent });
+            // input time comment into tabel comment
+            let arr = getDetailEvent.comments
+            for (let i = 0; i < arr.length; i++) {
+                arr[i].dataValues.time = commentTime[i];
+            }
+
+            // const currentTime = getDetailEvent.createdAt
+            // const formatDate = new Date(currentTime).toLocaleString()
+            // const parseTime = moment(formatDate, 'MM/DD/YYYY, h:mm:ss A').fromNow()
+
+            // let arrLength = getDetailEvent.dataValues.comments
+            // for (let i = 0; i < arrLength.length; i++) {
+            //     arrLength[i].dataValues.time = parseTime
+            // }
+
+            res.status(200).json({ status: 200, success: true, message: 'Success Retrieve Detail Event', data: getDetailEvent, });
 
         } catch (error) {
+            console.log(error);
             res.status(500).json({ status: 500, success: false, errors: ['Internal Server Error Retrieve Detail Event'], message: error });
         }
     }

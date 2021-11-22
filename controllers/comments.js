@@ -36,7 +36,7 @@ class Comment {
       }
 
       // if success
-      res.status(200).json({ status: 200, success: true, message: 'success get all comment', data });
+      res.status(200).json({ status: 200, totalComment: data.length, success: true, message: 'success get all comment', data });
     } catch (error) {
       next(error);
     }
@@ -66,6 +66,17 @@ class Comment {
         return res.status(404).json({ errors: "Comment not found" });
       }
 
+      // const currentTime = data.createdAt
+      // const formatDate = new Date(currentTime).toLocaleString()
+      // const parseTime = moment(formatDate, 'MM/DD/YYYY, h:mm:ss A').fromNow()
+
+      // data.dataValues.time = parseTime;
+      // return console.log(arrComment);
+      // let arrLength = getDetailEvent.dataValues.comments
+      // for (let i = 0; i < arrLength.length; i++) {
+      //   arrLength[i].dataValues.time = parseTime
+      // }
+
       // if success
       res.status(200).json({ status: 200, success: true, message: 'success get detail comment', data });
     } catch (error) {
@@ -89,12 +100,12 @@ class Comment {
       });
       req.body.id_user = currentUser.id;
 
-      // create comment
+      // create time comment
       const newData = await comment.create(req.body);
 
-      const currentTime = newData.createdAt
-      const timezone = new Date(currentTime).toLocaleString('en-US', { timeZone: 'asia/bangkok' })
-      const parseTime = moment(timezone).fromNow()
+      // const currentTime = newData.createdAt
+      // const timezone = new Date(currentTime).toLocaleString()
+      // const parseTime = moment(timezone).fromNow()
 
       // find event with join
       const data = await comment.findOne({
@@ -114,7 +125,7 @@ class Comment {
         ],
       });
 
-      data.dataValues.time = parseTime
+      // data.dataValues.time = parseTime
 
       res.status(201).json({ status: 200, success: true, message: 'Congrats! Your comment was successfully added.', data });
     } catch (error) {
