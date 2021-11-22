@@ -20,7 +20,7 @@ describe("Register", () => {
             .send({
                 firstName: "Daniel",
                 lastName: "Doe",
-                email: "daniels@mail.com",
+                email: "danielss@mail.com",
                 password: hashedPass,
             })
             .end((err, res) => {
@@ -34,7 +34,7 @@ describe("Register", () => {
                 expect(body).toHaveProperty("data");
                 expect(body.data).toHaveProperty("firstName", "Daniel");
                 expect(body.data).toHaveProperty("lastName", "Doe");
-                expect(body.data).toHaveProperty("email", "daniels@mail.com");
+                expect(body.data).toHaveProperty("email", "danielss@mail.com");
                 done();
             });
     });
@@ -45,7 +45,7 @@ describe("Register", () => {
             .send({
                 firstName: "",
                 lastName: "Doe",
-                email: "daniels@mail.com",
+                email: "danielss@mail.com",
                 password: hashedPass,
             })
             .end((err, res) => {
@@ -66,7 +66,7 @@ describe("Register", () => {
             .send({
                 firstName: "Daniel",
                 lastName: "Doe",
-                email: "daniels@mail.haha",
+                email: "danielss@mail.haha",
                 password: hashedPass,
             })
             .end((err, res) => {
@@ -92,7 +92,7 @@ describe("Register", () => {
             .send({
                 firstName: "Daniel",
                 lastName: "Doe",
-                email: "daniels@mail.haha",
+                email: "danielss@mail.haha",
                 password: wrongPass,
             })
             .end((err, res) => {
