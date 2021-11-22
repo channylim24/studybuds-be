@@ -127,7 +127,7 @@ class Comment {
 
       // data.dataValues.time = parseTime
 
-      res.status(201).json({ status: 200, success: true, message: 'Congrats! Your comment was successfully added.', data });
+      res.status(201).json({ status: 201, success: true, message: 'Congrats! Your comment was successfully added.', data });
     } catch (error) {
       next(error);
     }

@@ -31,7 +31,7 @@ class User {
                     },
                     attributes: { exclude: ["avatar", "updatedAt", "deletedAt", "password", "token"] }
                 })
-                res.status(201).json({ message: 'Congrats! You have successfully created an account.', data: resData });
+                res.status(201).json({ status: 201, message: 'Congrats! You have successfully created an account.', data: resData });
             } else {
                 // return jika email sudah terdaftar
                 errorType = 1;
@@ -118,7 +118,7 @@ class User {
                 attributes: { exclude: ['password', 'token'] }
             });
 
-            res.status(201).json({ status: 200, success: true, message: 'success updating user', data });
+            res.status(201).json({ status: 201, success: true, message: 'success updating user', data });
         } catch (error) {
             res.status(500).json({ errors: 'Error updating USER', message: error });
         }

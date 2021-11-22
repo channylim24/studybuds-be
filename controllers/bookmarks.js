@@ -165,7 +165,7 @@ class Bookmark {
           },
         ],
       });
-      res.status(201).json({ status: 200, success: true, message: 'success create bookmark', data });
+      res.status(201).json({ status: 201, success: true, message: 'success create bookmark', data });
     } catch (error) {
       next(error);
     }
